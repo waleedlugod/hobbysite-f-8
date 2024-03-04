@@ -1,0 +1,3 @@
+hobbysite/.env
+hobbysite/db.sqlite3
+hobbysite/**/**/__pycache__
