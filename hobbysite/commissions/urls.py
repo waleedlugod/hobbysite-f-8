@@ -1,5 +1,9 @@
 from django.urls import path
 
-urlpatterns = []
+from .views import commission_list
 
-app_name = "commissions"
+urlpatterns = [
+    path("list", commission_list, name="commission_list"),
+]
+
+app_name = "ledger"
