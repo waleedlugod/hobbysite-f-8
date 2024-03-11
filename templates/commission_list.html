@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,7 +7,7 @@
   </head>
   <body>
     {% for commission in commission_list %}
-    <li>{{commission.title}}</li>
+    <a href="{{commission.get_absolute_url}}">{{commission.title}}</a>
     {% endfor %}
   </body>
 </html>
