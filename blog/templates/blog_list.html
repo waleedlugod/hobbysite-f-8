@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Blog List</title>
 </head>
 <body>
-    <h1> {{ message }} </h1>
+    <h1> Blog Categories </h1>
+    {% for categ in object_list %}
+        <li>
+            <a href="{{ categ.get_absolute_url }}">
+                {{ categ.name }}
+            </a>
+        </li>
+
+    {% endfor %}
 </body>
 </html>
