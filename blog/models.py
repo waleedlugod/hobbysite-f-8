@@ -12,6 +12,9 @@ class ArticleCategory(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse("blog:blog-detail", args=[self.pk])
+
     class Meta:
         ordering = ["name"]
 
@@ -31,9 +34,6 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
-
-    def get_absolute_url(self):
-        return reverse("blog:blog-detail", args=[self.pk])
 
     class Meta:
         ordering = ["-created_on"]
