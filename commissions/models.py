@@ -6,8 +6,8 @@ class Commission(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     people_required = models.IntegerField()
-    created_on = models.DateTimeField()
-    updated_on = models.DateTimeField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["-created_on"]
@@ -21,8 +21,8 @@ class Comment(models.Model):
         to=Commission, on_delete=models.CASCADE, related_name="comments"
     )
     entry = models.TextField()
-    created_on = models.DateTimeField()
-    updated_on = models.DateTimeField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["-created_on"]
