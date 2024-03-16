@@ -9,9 +9,9 @@ class ArticleCategory(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return reverse("model_detail", kwargs={"pk": self.pk})
+        return reverse("wiki_detail", kwargs={"pk": self.pk})
     ## reverse("wiki:wiki_detail")
-    
+
     class Meta:
         ordering = ["name"]
 
@@ -27,11 +27,15 @@ class Article(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
+
+    class Meta:
+        ordering = ['-created_on']
+
     def __str__(self):
         return self.title
     
     def get_absolute_url(self):
-        return reverse("model_detail", kwargs={"pk": self.pk})
+        return reverse("wiki_detail", kwargs={"pk": self.pk})
 
 
 # Create your models here.
