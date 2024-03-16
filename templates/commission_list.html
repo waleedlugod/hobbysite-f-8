@@ -1,13 +1,6 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title></title>
-  </head>
-  <body>
-    {% for commission in commission_list %}
-    <a href="{{commission.get_absolute_url}}">{{commission.title}}</a>
-    {% endfor %}
-  </body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+	{% for commission in commission_list %}
+	<a href="{{commission.get_absolute_url}}">{{commission.title}}</a>
+	{% endfor %}
+{% endblock%}

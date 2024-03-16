@@ -1,4 +1,6 @@
 {% extends "base.html" %}
-{% block content %} {% for comment in commission_detail.comments.all %}
-<li>{{comment.entry}}</li>
-{% endfor %} {% endblock%}
+{% block content %}
+	{% for comment in commission_detail.comments.all %}
+	<li>{{comment.entry}}</li>
+	{% endfor %}
+{% endblock%}
