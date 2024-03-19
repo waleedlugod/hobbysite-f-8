@@ -5,8 +5,7 @@ from .models import Article, ArticleCategory
 
 def blog_list_view(request):
     categories = ArticleCategory.objects.all()
-    articles = Article.objects.all()
-    ctx = {"categories": categories, "articles": articles}
+    ctx = {"categories": categories}
 
     return render(request, "blog/blog_list.html", ctx)
 
