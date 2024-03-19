@@ -1,0 +1,7 @@
+{% extends 'wiki_templates/base.html' %}
+{% block content %}
+    <h1> {{ article }} </h1>
+    <h2> {{ article.category }} </h2>
+    <h3> {{ article.created_on }} / updated on {{ article.updated_on }} </h3>
+    <p> {{ article.entry }} <p>
+{% endblock %}
