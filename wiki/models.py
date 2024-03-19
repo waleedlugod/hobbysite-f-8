@@ -20,7 +20,7 @@ class Article(models.Model):
     title = models.CharField(max_length=255)
     entry = models.TextField()
     category = models.ForeignKey(
-        ArticleCategory, on_delete=models.CASCADE, related_name="articles"
+        ArticleCategory, on_delete=models.SET_NULL, null=True, related_name="articles"
     )
 
     created_on = models.DateTimeField(auto_now_add=True)
