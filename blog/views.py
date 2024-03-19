@@ -8,14 +8,14 @@ def blog_list_view(request):
     articles = Article.objects.all()
     ctx = {"categories": categories, "articles": articles}
 
-    return render(request, "blog_list.html", ctx)
+    return render(request, "blog/blog_list.html", ctx)
 
 
 def blog_detail_view(request, pk):
     article = Article.objects.get(pk=pk)
     ctx = {"article": article}
 
-    return render(request, "blog_detail.html", ctx)
+    return render(request, "blog/blog_detail.html", ctx)
 
 
 # Create your views here.
