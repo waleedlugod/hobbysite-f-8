@@ -9,20 +9,18 @@ class ArticleCategory(models.Model):
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self):
-        return reverse("wiki_detail", kwargs={"pk": self.pk})
-
     ## reverse("wiki:wiki_detail")
 
     class Meta:
         ordering = ["name"]
+        verbose_name_plural = "Article categories"
 
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
     entry = models.TextField()
     category = models.ForeignKey(
-        ArticleCategory, on_delete=models.CASCADE, related_name="artcles"
+        ArticleCategory, on_delete=models.CASCADE, related_name="articles"
     )
 
     created_on = models.DateTimeField(auto_now_add=True)
@@ -35,7 +33,7 @@ class Article(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("wiki_detail", kwargs={"pk": self.pk})
+        return reverse("wiki:article-detail", args=[str(self.pk)])
 
 
 # Create your models here.

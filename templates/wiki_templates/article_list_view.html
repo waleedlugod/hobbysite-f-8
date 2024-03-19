@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Wiki </title>
+    </head>
+    <body>
+        <h1> Wiki </h1>
+        {% for category in categories %}
+            <h2> {{ category }} </h2>
+                {% for article in category.articles.all %}
+                        <li><a href="{{ article.get_absolute_url }}"> {{ article }} </a> </li>
+                {% endfor %}
+        {% endfor %}
+    </body>
+</html>
