@@ -1,3 +1,4 @@
+{% extends 'blog/base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +7,12 @@
     <title> Article </title>
 </head>
 <body>
-    <h1> {{ article.title }} </h1>
-    <h2> {{ article.category }} </h2>
-    <h3> Created on: {{ article.created_on}} </h3>
-    <h3> Last updated on: {{ article.updated_on}}</h3>
+    {% block content %}
+    <h2> {{ article.title }} </h2>
+    <h3> {{ article.category }} </h3>
+    <h4> Created on: {{ article.created_on}} </h4>
+    <h4> Last updated on: {{ article.updated_on}}</h4>
     <p> {{ article.entry }} </p>
-
+    {% endblock %}
 </body>
 </html>
