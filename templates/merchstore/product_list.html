@@ -1,0 +1,27 @@
+{% extends 'merchstore/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+</head>
+<body>
+    {% block content %}
+    <h2> Product Types </h2>
+    {% for type in types %}
+        <h3> {{ type }} </h3>
+        <ul>
+            {% for product in type.products.all %}
+                <li>
+                    <a href="{{ product.get_absolute_url }}">
+                        {{ product }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+    {% endblock %}
+
+</body>
+</html>
