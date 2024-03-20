@@ -7,9 +7,7 @@ class ArticleCategory(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return self.name
-
-    ## reverse("wiki:wiki_detail")
+        return str(self.name)
 
     class Meta:
         ordering = ["name"]
@@ -30,10 +28,7 @@ class Article(models.Model):
         ordering = ["-created_on"]
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
     def get_absolute_url(self):
         return reverse("wiki:article-detail", args=[str(self.pk)])
-
-
-# Create your models here.
