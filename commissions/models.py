@@ -3,8 +3,15 @@ from django.urls import reverse
 
 
 class Commission(models.Model):
+    STATUS_CHOICES = {
+        "O": "Open",
+        "F": "Full",
+        "C": "Completed",
+        "DC": "Discontinued",
+    }
     title = models.CharField(max_length=255)
     description = models.TextField()
+    status = models.CharField(max_length=255, default=STATUS_CHOICES["O"], choices=STATUS_CHOICES)
     people_required = models.IntegerField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
