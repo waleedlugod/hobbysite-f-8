@@ -26,13 +26,17 @@ class Commission(models.Model):
         return reverse("commissions:commission_detail", args=[str(self.pk)])
 
 
-class Comment(models.Model):
+class Job(models.Model):
+    STATUS_CHOICES = {
+        "O": "Open",
+        "F": "Full",
+    }
     commission = models.ForeignKey(
-        to=Commission, on_delete=models.CASCADE, related_name="comments"
+        to=Commission, on_delete=models.CASCADE, related_name="Job"
     )
-    entry = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
+    role = models.CharField(max_length=255)
+    status = models.CharField(max_length=255, default=STATUS_CHOICES["O"], choices=STATUS_CHOICES)
+    people_required = models.IntegerField()
 
     class Meta:
-        ordering = ["-created_on"]
+        ordering = ["-status", "-people_required", "role"]

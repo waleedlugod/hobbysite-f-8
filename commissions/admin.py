@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from .models import Comment, Commission
+from .models import Job, Commission
 
 
 class CommentInline(admin.TabularInline):
-    model = Comment
+    model = Job
 
 
 class CommissionAdmin(admin.ModelAdmin):
