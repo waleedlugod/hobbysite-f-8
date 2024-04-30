@@ -1,5 +1,6 @@
 from commissions.models import Commission
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 
 def commission_list(request):
@@ -7,6 +8,7 @@ def commission_list(request):
     return render(request, "commission/commission_list.html", commission_list)
 
 
+@login_required
 def commission_detail(request, pk):
     commission_detail = {"commission_detail": Commission.objects.get(pk=pk)}
     return render(request, "commission/commission_detail.html", commission_detail)
