@@ -25,5 +25,5 @@ urlpatterns = [
     path("merchstore/", include("merchstore.urls", namespace="merchstore")),
     path("admin/", admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
-    path("profile/", include("user_management.urls", namespace="user_management")),
+    path("profile/", include("user_management.urls", namespace="user-management")),
 ]
