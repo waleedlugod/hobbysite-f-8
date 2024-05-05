@@ -5,18 +5,22 @@ from user_management.models import Profile
 
 
 class Commission(models.Model):
+    OPEN = "O"
+    FULL = "F"
+    COMPLETED = "C"
+    DISCONTINUED = "DC"
     STATUS_CHOICES = {
-        "O": "Open",
-        "F": "Full",
-        "C": "Completed",
-        "DC": "Discontinued",
+        OPEN: "Open",
+        FULL: "Full",
+        COMPLETED: "Completed",
+        DISCONTINUED: "Discontinued",
     }
     title = models.CharField(max_length=255)
     description = models.TextField()
     status = models.CharField(
         max_length=255, default=STATUS_CHOICES["O"], choices=STATUS_CHOICES
     )
-    people_required = models.IntegerField()
+    manpower_required = models.IntegerField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -31,29 +35,33 @@ class Commission(models.Model):
 
 
 class Job(models.Model):
+    OPEN = "0"
+    FULL = "1"
     STATUS_CHOICES = {
-        "O": "Open",
-        "F": "Full",
+        OPEN: "Open",
+        FULL: "Full",
     }
     commission = models.ForeignKey(
         to=Commission, on_delete=models.CASCADE, related_name="job"
     )
     role = models.CharField(max_length=255)
     status = models.CharField(
-        max_length=255, default=STATUS_CHOICES["O"], choices=STATUS_CHOICES
+        max_length=255, default=STATUS_CHOICES[OPEN], choices=STATUS_CHOICES
     )
-    people_required = models.IntegerField()
+    manpower_required = models.IntegerField()
 
     class Meta:
-        # TODO: make ordering better
-        ordering = ["-status", "-people_required", "role"]
+        ordering = ["status", "-manpower_required", "role"]
 
 
 class JobApplication(models.Model):
+    PENDING = "0"
+    ACCEPTED = "1"
+    REJECTED = "2"
     STATUS_CHOICES = {
-        "P": "Pending",
-        "A": "Accepted",
-        "R": "Rejected",
+        PENDING: "Pending",
+        ACCEPTED: "Accepted",
+        REJECTED: "Rejected",
     }
     job = models.ForeignKey(
         to=Job, on_delete=models.CASCADE, related_name="job_application"
@@ -62,10 +70,9 @@ class JobApplication(models.Model):
         to=Profile, on_delete=models.CASCADE, related_name="job_application"
     )
     status = models.CharField(
-        max_length=255, default=STATUS_CHOICES["P"], choices=STATUS_CHOICES
+        max_length=255, default=STATUS_CHOICES[PENDING], choices=STATUS_CHOICES
     )
     applied_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        # TODO: fix ordering
-        ordering = ["-applied_on"]
+        ordering = ["status", "-applied_on"]
