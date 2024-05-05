@@ -16,5 +16,10 @@ class CommentAdmin(admin.ModelAdmin):
     model = Comment
 
 
+class ArticleAdmin(admin.ModelAdmin):
+    model = Article
+
+
 admin.site.register(ArticleCategory, ArticleCategoryAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(Article, ArticleAdmin)
