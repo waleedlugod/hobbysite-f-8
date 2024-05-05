@@ -28,6 +28,7 @@ def profile_update(request):
             user.username = form.cleaned_data.get("username")
             user.password = form.cleaned_data.get("password")
             user.save()
+
             return redirect("registration/profile-index")
 
     return render(request, "registration/profile_update.html", ctx)
@@ -48,6 +49,13 @@ def register_view(request):
             new_user.first_name = fname
             new_user.last_name = lname
             new_user.save()
+
+            profile = Profile()
+            profile.user = new_user
+            profile.username = form.cleaned_data.get("username")
+            profile.email = form.cleaned_data.get("email")
+            profile.save()
+
             message = f"{username} has been successully created"
 
     ctx = {"form": form, "message": message}
