@@ -18,4 +18,14 @@
     {% endfor %}
 {% endif %}
 
+<h2> Comments </h2>
+{% for comment in article.comments.all %}
+    <p> {{ comment.author }}: {{ comment.entry }} </p>
+{% endfor %}
+<form method="POST">
+    {% csrf_token %}
+    {{ comment_form.as_div }}
+    <button type="submit"> Submit </button>
+</form>
+
 {% endblock %}
