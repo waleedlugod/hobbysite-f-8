@@ -3,7 +3,9 @@ from django.db import models
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User, primary_key=True, on_delete=models.CASCADE, related_name="profile"
+    )
     username = models.CharField(max_length=63, verbose_name="Display name")
     email = models.EmailField(default="example@example.com")
 
