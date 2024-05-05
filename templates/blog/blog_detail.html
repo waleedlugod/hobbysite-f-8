@@ -2,7 +2,18 @@
 {% block content %}
 <h2> {{ article.title }} </h2>
 <h3> {{ article.category }} </h3>
-<h4> Created on: {{ article.created_on}} </h4>
-<h4> Last updated on: {{ article.updated_on}}</h4>
+
 <p> {{ article.entry }} </p>
+<p> Created on: {{ article.created_on }} </p>
+<p> Last updated on: {{ article.updated_on }}</p>
+
+{% if request.user.is_authenticated %}
+    <a> More articles from {{ request.user.profile }}: </a>
+    {% for other_article in request.user.profile.articles.all %}
+        {% if other_article != article %}
+        <li> <a href="{{ article.get_absolute_url }}"> {{ other_article }} </a></li>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
 {% endblock %}
