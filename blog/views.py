@@ -17,7 +17,7 @@ def blog_list_view(request):
 @login_required
 def blog_detail_view(request, pk):
     article = Article.objects.get(pk=pk)
-    ctx = {"article": article}
+    ctx = {"article": article, "blog_list_url": reverse("blog:blog-list")}
 
     return render(request, "blog/blog_detail.html", ctx)
 
