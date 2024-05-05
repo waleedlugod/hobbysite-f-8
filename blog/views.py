@@ -2,13 +2,14 @@ from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.decorators import login_required
 
 from .models import Article, ArticleCategory, Comment
-from .forms import CommentForm, UpdateForm
+from .forms import ArticleForm, CommentForm, UpdateForm
 
 
 def blog_list_view(request):
     categories = ArticleCategory.objects.all()
     ctx = {
         "categories": categories,
+        "create_url": reverse("blog:blog-create"),
         "register_url": reverse("user_management:register"),
     }
 
@@ -41,7 +42,21 @@ def blog_detail_view(request, pk):
 
 @login_required
 def blog_create_view(request):
-    ctx = {}
+    article_form = ArticleForm()
+
+    if request.method == "POST":
+        article_form = ArticleForm(request.POST, request.FILES)
+        if article_form.is_valid():
+            article = Article()
+            article.title = article_form.cleaned_data.get("title")
+            article.author = request.user.profile
+            article.category = article_form.cleaned_data.get("category")
+            article.entry = article_form.cleaned_data.get("entry")
+            article.header_image = article_form.cleaned_data.get("header_image")
+            article.save()
+            return redirect("blog:blog-list")
+
+    ctx = {"article_form": article_form}
     return render(request, "blog/blog_create.html", ctx)
 
 

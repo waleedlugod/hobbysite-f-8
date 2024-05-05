@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 {% block content %}
+<h2> <a href="{{ create_url }}"> Create new article </a></h2>
 <h2> Categories </h2>
-
 {% if request.user.is_authenticated %}
     <h3> My Articles </h3>
     <ul>
@@ -11,6 +11,7 @@
         </li>
     {% endfor %}
     </ul>
+
 {% endif %} 
 
 {% for category in categories %}
