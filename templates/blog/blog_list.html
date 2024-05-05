@@ -4,11 +4,13 @@
 
 {% if request.user.is_authenticated %}
     <h3> My Articles </h3>
+    <ul>
     {% for article in request.user.profile.articles.all %}
         <li>
             <a href="{{ article.get_absolute_url }}">  {{ article }} </a>
         </li>
     {% endfor %}
+    </ul>
 {% endif %} 
 
 {% for category in categories %}

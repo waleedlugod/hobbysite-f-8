@@ -1,5 +1,7 @@
 {% extends 'blog/base.html' %}
 {% block content %}
+
+<image src="{{ article.header_image.url }}"></image>
 <h2> {{ article.title }} </h2>
 <h3> {{ article.category }} </h3>
 
