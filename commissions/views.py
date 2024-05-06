@@ -73,3 +73,16 @@ def commission_create(request):
             return redirect("commissions:commission_list")
     ctx = {"commission_form": commission_form, "job_form": job_form}
     return render(request, "commission/commission_create.html", ctx)
+
+
+@login_required
+def commission_edit(request, pk):
+    commission_form = CommissionForm()
+    if request.method == "POST":
+        commission = Commission.objects.get(pk=pk)
+        commission_form = CommissionForm(request.POST, instance=commission)
+        if commission_form.is_valid():
+            commission_form.save()
+    # TODO: make jobs editable
+    ctx = {"commission_form": commission_form}
+    return render(request, "commission/commission_edit.html", ctx)
