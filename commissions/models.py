@@ -5,10 +5,10 @@ from user_management.models import Profile
 
 
 class Commission(models.Model):
-    OPEN = "O"
-    FULL = "F"
-    COMPLETED = "C"
-    DISCONTINUED = "DC"
+    OPEN = "0"
+    FULL = "1"
+    COMPLETED = "2"
+    DISCONTINUED = "3"
     STATUS_CHOICES = {
         OPEN: "Open",
         FULL: "Full",
@@ -18,7 +18,7 @@ class Commission(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     status = models.CharField(
-        max_length=255, default=STATUS_CHOICES["O"], choices=STATUS_CHOICES
+        max_length=255, default=STATUS_CHOICES[OPEN], choices=STATUS_CHOICES
     )
     manpower_required = models.IntegerField()
     created_on = models.DateTimeField(auto_now_add=True)
