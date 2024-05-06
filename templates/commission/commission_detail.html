@@ -7,12 +7,10 @@
 	<br/>
 	<p>{{ commission_detail.description }}</p>
 	<br/>
-	<h2>Comments</h2>
-	{% for comment in commission_detail.comments.all %}
-	<p>Created: {{ comment.created_on }}</p>
-	<p>Edited: {{ comment.updated_on }}</p>
-	<li>{{comment.entry}}</li>
-	<br/>
-	<br/>
+	<h2>Jobs</h2>
+	{% for job in commission_detail.job.all %}
+	<p>{{ job.role }}</p>
+	<p>{{ job.get_status_display }}</p>
+	<p>{{ job.manpower_required }} people required</p>
 	{% endfor %}
 {% endblock%}
