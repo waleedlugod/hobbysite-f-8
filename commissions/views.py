@@ -7,7 +7,8 @@ from commissions.models import Commission
 def commission_list(request):
     commission_list = {
         "commission_list": Commission.objects.all(),
-        "created_commission_list": Commission.objects.all(),
+        "created_commission_list":
+        Commission.objects.filter(author__username=request.user.profile.username),
         "applied_commission_list": Commission.objects.filter(
             job__job_application__applicant__username=request.user.profile.username
         ),
