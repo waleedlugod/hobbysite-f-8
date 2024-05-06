@@ -22,6 +22,10 @@
     {% endfor %}
 {% endif %}
 
+<h2> Image Gallery </h2>
+{% for imageobj in article.images.all %}
+    <image src="{{ imageobj.image.url }}"></image>
+{% endfor %}
 
 <h2> Comments </h2>
 {% for comment in article.comments.all %}

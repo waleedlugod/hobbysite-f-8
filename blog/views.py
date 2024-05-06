@@ -1,8 +1,8 @@
 from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.decorators import login_required
 
-from .models import Article, ArticleCategory, Comment
-from .forms import ArticleForm, CommentForm, UpdateForm
+from .models import Article, ArticleCategory, Comment, ArticleImage
+from .forms import ArticleForm, CommentForm, UpdateForm, ArticleImagesForm
 
 
 def blog_list_view(request):
@@ -43,9 +43,11 @@ def blog_detail_view(request, pk):
 @login_required
 def blog_create_view(request):
     article_form = ArticleForm()
+    images_form = ArticleImagesForm()
 
     if request.method == "POST":
         article_form = ArticleForm(request.POST, request.FILES)
+        images_form = ArticleImagesForm(request.POST, request.FILES)
         if article_form.is_valid():
             article = Article()
             article.title = article_form.cleaned_data.get("title")
@@ -54,19 +56,32 @@ def blog_create_view(request):
             article.entry = article_form.cleaned_data.get("entry")
             article.header_image = article_form.cleaned_data.get("header_image")
             article.save()
+
+            images = request.FILES.getlist("images")
+            for image in images:
+                imageobj = ArticleImage()
+                imageobj.article = article
+                imageobj.image = image
+                imageobj.save()
+
             return redirect("blog:blog-list")
 
-    ctx = {"article_form": article_form}
+    ctx = {
+        "article_form": article_form,
+        "images_form": images_form,
+    }
     return render(request, "blog/blog_create.html", ctx)
 
 
 @login_required
 def blog_update_view(request, pk):
     update_form = UpdateForm()
+    images_form = ArticleImagesForm()
     article = Article.objects.get(pk=pk)
 
     if request.method == "POST":
         update_form = UpdateForm(request.POST, request.FILES)
+        images_form = ArticleImagesForm(request.POST, request.FILES)
         if update_form.is_valid():
             article.title = update_form.cleaned_data.get("title")
             article.category = update_form.cleaned_data.get("category")
@@ -74,6 +89,13 @@ def blog_update_view(request, pk):
             article.header_image = update_form.cleaned_data.get("header_image")
             article.save()
 
+            images = request.FILES.getlist("images")
+            for image in images:
+                imageobj = ArticleImage()
+                imageobj.article = article
+                imageobj.image = image
+                imageobj.save()
+
             return redirect("blog:blog-detail", pk=pk)
-    ctx = {"update_form": update_form, "article": article}
+    ctx = {"update_form": update_form, "images_form": images_form, "article": article}
     return render(request, "blog/blog_update.html", ctx)
