@@ -9,7 +9,7 @@ class Commission(models.Model):
     FULL = "1"
     COMPLETED = "2"
     DISCONTINUED = "3"
-    STATUS_CHOICES = {
+    STATUSES = {
         OPEN: "Open",
         FULL: "Full",
         COMPLETED: "Completed",
@@ -17,9 +17,7 @@ class Commission(models.Model):
     }
     title = models.CharField(max_length=255)
     description = models.TextField()
-    status = models.CharField(
-        max_length=255, default=STATUS_CHOICES[OPEN], choices=STATUS_CHOICES
-    )
+    status = models.CharField(max_length=255, default=STATUSES[OPEN], choices=STATUSES)
     manpower_required = models.IntegerField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -37,7 +35,7 @@ class Commission(models.Model):
 class Job(models.Model):
     OPEN = "0"
     FULL = "1"
-    STATUS_CHOICES = {
+    STATUSES = {
         OPEN: "Open",
         FULL: "Full",
     }
@@ -45,20 +43,21 @@ class Job(models.Model):
         to=Commission, on_delete=models.CASCADE, related_name="job"
     )
     role = models.CharField(max_length=255)
-    status = models.CharField(
-        max_length=255, default=STATUS_CHOICES[OPEN], choices=STATUS_CHOICES
-    )
+    status = models.CharField(max_length=255, default=STATUSES[OPEN], choices=STATUSES)
     manpower_required = models.IntegerField()
 
     class Meta:
         ordering = ["status", "-manpower_required", "role"]
+
+    def __str__(self):
+        return str(self.role)
 
 
 class JobApplication(models.Model):
     PENDING = "0"
     ACCEPTED = "1"
     REJECTED = "2"
-    STATUS_CHOICES = {
+    STATUSES = {
         PENDING: "Pending",
         ACCEPTED: "Accepted",
         REJECTED: "Rejected",
@@ -70,7 +69,7 @@ class JobApplication(models.Model):
         to=Profile, on_delete=models.CASCADE, related_name="job_application"
     )
     status = models.CharField(
-        max_length=255, default=STATUS_CHOICES[PENDING], choices=STATUS_CHOICES
+        max_length=255, default=STATUSES[PENDING], choices=STATUSES
     )
     applied_on = models.DateTimeField(auto_now_add=True)
 

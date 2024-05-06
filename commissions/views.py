@@ -1,10 +1,17 @@
-from commissions.models import Commission
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+from commissions.models import Commission
 
 
 def commission_list(request):
-    commission_list = {"commission_list": Commission.objects.all()}
+    commission_list = {
+        "commission_list": Commission.objects.all(),
+        "created_commission_list": Commission.objects.all(),
+        "applied_commission_list": Commission.objects.filter(
+            job__job_application__applicant__username=request.user.profile.username
+        ),
+    }
     return render(request, "commission/commission_list.html", commission_list)
 
 
