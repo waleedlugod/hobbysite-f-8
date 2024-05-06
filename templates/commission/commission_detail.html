@@ -1,24 +1,28 @@
 {% extends "commission/base.html" %}
 {% block content %}
-	<h1>{{ commission_detail.title }}</h1>
-	<p>People required: {{ commission_detail.people_required }}</p>
-	<p>Submitted on {{ commission_detail.created_on }}</p>
-	<p>Edited on {{ commission_detail.updated_on }}</p>
-	<br/>
-	<p>{{ commission_detail.description }}</p>
-	<br/>
-	<h2>Jobs</h2>
-	<p>Total manpower: {{ total_manpower_required }}</p>
-	<p>Open manpower: {{ open_manpower }}</p>
-	{% for job in commission_jobs %}
-	<p>{{ job.role }}</p>
-	<p>{{ job.get_status_display }}</p>
-	<p>{{ job.manpower_required }} people required</p>
-	<form method="POST">
-		{% csrf_token %}
-		{{ form }}
-		<input type="hidden" name="job" value="{{job}}">
-		<input type="submit" value="Apply to Job">
-	</form>
-	{% endfor %}
+  <h1>{{ commission_detail.title }}</h1>
+  <p>People required: {{ commission_detail.people_required }}</p>
+  <p>Submitted on {{ commission_detail.created_on }}</p>
+  <p>Edited on {{ commission_detail.updated_on }}</p>
+  <br/>
+  <p>{{ commission_detail.description }}</p>
+  <br/>
+  <h2>Jobs</h2>
+  <p>Total manpower: {{ total_manpower_required }}</p>
+  <p>Open manpower: {{ open_manpower }}</p>
+  {% for job in commission_jobs %}
+  <p>{{ job.role }}</p>
+  <p>{{ job.get_status_display }}</p>
+  <p>{{ job.manpower_required }} people required</p>
+  <form method="POST">
+  	{% csrf_token %}
+  	{{ form }}
+  	<input type="hidden" name="job" value="{{job}}">
+  	<input
+  	  type="submit"
+  	  value="Apply to Job"
+  	  {% if open_manpower == 0 %}disabled{% endif %}
+  	>
+  </form>
+  {% endfor %}
 {% endblock%}

@@ -26,7 +26,7 @@ def commission_detail(request, pk):
     commission_jobs = commission_detail.job
     total_manpower_required = commission_jobs.aggregate(Sum("manpower_required"))[
         "manpower_required__sum"
-    ]
+    ] or 0
     open_manpower = (
         total_manpower_required
         - commission_jobs.filter(job_application__status="1").aggregate(
