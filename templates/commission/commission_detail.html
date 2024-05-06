@@ -14,5 +14,11 @@
 	<p>{{ job.role }}</p>
 	<p>{{ job.get_status_display }}</p>
 	<p>{{ job.manpower_required }} people required</p>
+	<form method="POST">
+		{% csrf_token %}
+		{{ form }}
+		<input type="hidden" name="job" value="{{job}}">
+		<input type="submit" value="Apply to Job">
+	</form>
 	{% endfor %}
 {% endblock%}

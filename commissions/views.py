@@ -2,9 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Sum
 from django.shortcuts import redirect, render
 
-from commissions.models import Commission
+from commissions.models import Commission, Job, JobApplication
 
-from .forms import CommissionForm
+from .forms import CommissionForm, JobApplicationForm
 
 
 def commission_list(request):
@@ -34,11 +34,23 @@ def commission_detail(request, pk):
         )["job_application__count"]
     )
 
+    form = JobApplicationForm()
+    if request.method == "POST":
+        form = JobApplicationForm(request.POST)
+        if form.is_valid():
+            application = form.save(commit=False)
+            application.job = Job.objects.get(role=request.POST.get("job"))
+            application.applicant = request.user.profile
+            application.status = JobApplication.PENDING
+            form.save()
+            return redirect("commissions:commission_detail", pk=pk)
+
     commission_detail = {
         "commission_detail": commission_detail,
         "commission_jobs": commission_jobs.all(),
         "total_manpower_required": total_manpower_required,
         "open_manpower": open_manpower,
+        "form": form,
     }
     return render(request, "commission/commission_detail.html", commission_detail)
 
