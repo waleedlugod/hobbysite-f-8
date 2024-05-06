@@ -16,6 +16,7 @@ class Commission(models.Model):
         DISCONTINUED: "Discontinued",
     }
     title = models.CharField(max_length=255)
+    author = models.ForeignKey(to=Profile, on_delete=models.CASCADE, related_name="commission")
     description = models.TextField()
     status = models.CharField(max_length=255, default=STATUSES[OPEN], choices=STATUSES)
     manpower_required = models.IntegerField()
