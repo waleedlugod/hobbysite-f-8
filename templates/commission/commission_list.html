@@ -1,5 +1,6 @@
 {% extends "commission/base.html" %}
 {% block content %}
+<a href="/commissions/add">Create Commission</a>
 {% if request.user.is_authenticated %}
 <h1>Commissions Created</h1>
 {% for commission in created_commission_list %}

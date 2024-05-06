@@ -1,14 +1,17 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from commissions.models import Commission
+
+from .forms import CommissionForm
 
 
 def commission_list(request):
     commission_list = {
         "commission_list": Commission.objects.all(),
-        "created_commission_list":
-        Commission.objects.filter(author__username=request.user.profile.username),
+        "created_commission_list": Commission.objects.filter(
+            author__username=request.user.profile.username
+        ),
         "applied_commission_list": Commission.objects.filter(
             job__job_application__applicant__username=request.user.profile.username
         ),
@@ -20,3 +23,15 @@ def commission_list(request):
 def commission_detail(request, pk):
     commission_detail = {"commission_detail": Commission.objects.get(pk=pk)}
     return render(request, "commission/commission_detail.html", commission_detail)
+
+
+@login_required
+def commission_create(request):
+    form = CommissionForm()
+    if request.method == "POST":
+        form = CommissionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("commissions:commission_list")
+    ctx = {"form": form}
+    return render(request, "commission/commission_create.html", ctx)
