@@ -19,7 +19,6 @@ class Commission(models.Model):
     author = models.ForeignKey(to=Profile, on_delete=models.CASCADE, related_name="commission")
     description = models.TextField()
     status = models.CharField(max_length=255, default=STATUSES[OPEN], choices=STATUSES)
-    manpower_required = models.IntegerField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 

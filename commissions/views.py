@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 
 from commissions.models import Commission, Job, JobApplication
 
-from .forms import CommissionForm, JobApplicationForm
+from .forms import CommissionForm, JobApplicationForm, JobForm
 
 
 def commission_list(request):
@@ -24,9 +24,10 @@ def commission_list(request):
 def commission_detail(request, pk):
     commission_detail = Commission.objects.get(pk=pk)
     commission_jobs = commission_detail.job
-    total_manpower_required = commission_jobs.aggregate(Sum("manpower_required"))[
-        "manpower_required__sum"
-    ] or 0
+    total_manpower_required = (
+        commission_jobs.aggregate(Sum("manpower_required"))["manpower_required__sum"]
+        or 0
+    )
     open_manpower = (
         total_manpower_required
         - commission_jobs.filter(job_application__status="1").aggregate(
@@ -57,11 +58,18 @@ def commission_detail(request, pk):
 
 @login_required
 def commission_create(request):
-    form = CommissionForm()
+    commission_form = CommissionForm()
+    job_form = JobForm()
     if request.method == "POST":
-        form = CommissionForm(request.POST)
-        if form.is_valid():
-            form.save()
+        commission_form = CommissionForm(request.POST)
+        job_form = JobForm(request.POST)
+        if commission_form.is_valid() and job_form.is_valid():
+            commission = commission_form.save(commit=False)
+            commission.author = request.user.profile
+            commission = commission_form.save()
+            job = job_form.save(commit=False)
+            job.commission = commission
+            job_form.save()
             return redirect("commissions:commission_list")
-    ctx = {"form": form}
+    ctx = {"commission_form": commission_form, "job_form": job_form}
     return render(request, "commission/commission_create.html", ctx)
