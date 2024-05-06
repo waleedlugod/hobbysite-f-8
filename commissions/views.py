@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count, Sum
 from django.shortcuts import redirect, render
 
 from commissions.models import Commission
@@ -21,7 +22,24 @@ def commission_list(request):
 
 @login_required
 def commission_detail(request, pk):
-    commission_detail = {"commission_detail": Commission.objects.get(pk=pk)}
+    commission_detail = Commission.objects.get(pk=pk)
+    commission_jobs = commission_detail.job
+    total_manpower_required = commission_jobs.aggregate(Sum("manpower_required"))[
+        "manpower_required__sum"
+    ]
+    open_manpower = (
+        total_manpower_required
+        - commission_jobs.filter(job_application__status="1").aggregate(
+            Count("job_application")
+        )["job_application__count"]
+    )
+
+    commission_detail = {
+        "commission_detail": commission_detail,
+        "commission_jobs": commission_jobs.all(),
+        "total_manpower_required": total_manpower_required,
+        "open_manpower": open_manpower,
+    }
     return render(request, "commission/commission_detail.html", commission_detail)
 
 

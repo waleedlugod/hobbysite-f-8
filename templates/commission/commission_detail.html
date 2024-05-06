@@ -8,7 +8,9 @@
 	<p>{{ commission_detail.description }}</p>
 	<br/>
 	<h2>Jobs</h2>
-	{% for job in commission_detail.job.all %}
+	<p>Total manpower: {{ total_manpower_required }}</p>
+	<p>Open manpower: {{ open_manpower }}</p>
+	{% for job in commission_jobs %}
 	<p>{{ job.role }}</p>
 	<p>{{ job.get_status_display }}</p>
 	<p>{{ job.manpower_required }} people required</p>
