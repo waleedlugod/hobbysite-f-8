@@ -80,17 +80,13 @@ def commission_create(request):
 
 @login_required
 def commission_edit(request, pk):
-    commission_jobs = Commission.objects.get(pk=pk).job
-    commission_form = CommissionForm()
-    job_formset = modelformset_factory(
-        Job,
-        extra=0,
-        exclude=["commission"]
-    )
-    job_forms = job_formset()
+    commission = Commission.objects.get(pk=pk)
+    commission_jobs = commission.job
+    commission_form = CommissionForm(instance=commission)
+    job_formset = modelformset_factory(Job, extra=0, exclude=["commission"])
+    job_forms = job_formset(queryset=Job.objects.filter(commission=commission))
 
     if request.method == "POST":
-        commission = Commission.objects.get(pk=pk)
         commission_form = CommissionForm(request.POST, instance=commission)
         job_forms = job_formset(request.POST)
         if commission_form.is_valid() and job_forms.is_valid():
