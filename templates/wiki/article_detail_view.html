@@ -1,0 +1,38 @@
+{% extends 'wiki/base.html' %}
+{% block content %}
+
+    <h3> Read more from {{ this_article.category }} </h3>
+    {% for other_article in all_articles %}
+        {% if other_article.category == this_article.category %}
+            {% if other_article != this_article %}
+                <li><a href="{{ other_article.get_absolute_url }}"> {{ other_article }} </a> </li>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    <h1> {{ this_article }} </h1>
+    <h2> {{ this_article.category }} </h2>
+    <p> {{ this_article.created_on }} / updated on {{ this_article.updated_on }} </p>
+    <image src="{{ this_article.header_image.url }}" width="40%"> </image>
+    <p> {{ this_article.entry }} <p>
+
+    {% if request.user.is_authenticated %}
+        {% if request.user.profile == this_article.author %}
+        <a href='{% url 'wiki:article-update' pk=this_article.pk %}'> Update article </a>
+        {% else %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Submit">
+            </form>
+        {% endif %}
+    {% endif %}
+
+    {% for comment in comments %}
+        {% if comment.article == this_article %}
+            <p> {{comment.author.username}}: {{comment.entry}} </p>
+        {% endif %}
+    {% endfor %}
+
+    <a href='{% url 'wiki:article-list' %}'> Back? </a>
+{% endblock %}
