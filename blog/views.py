@@ -23,11 +23,11 @@ def blog_detail_view(request, pk):
     if request.method == "POST":
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
-            comment = Comment()
-            comment.author = request.user.profile
-            comment.entry = comment_form.cleaned_data.get("entry")
-            comment.article = article
-            comment.save()
+            commentobj = Comment()
+            commentobj.author = request.user.profile
+            commentobj.comment = comment_form.cleaned_data.get("comment")
+            commentobj.article = article
+            commentobj.save()
             comment_form = CommentForm()
 
     ctx = {
@@ -35,6 +35,7 @@ def blog_detail_view(request, pk):
         "comment_form": comment_form,
         "blog_list_url": reverse("blog:blog-list"),
         "update_url": reverse("blog:blog-update", args=[pk]),
+        "upload_images_url": reverse("blog:blog-upload-images", args=[pk]),
     }
 
     return render(request, "blog/blog_detail.html", ctx)
@@ -76,7 +77,6 @@ def blog_create_view(request):
 @login_required
 def blog_update_view(request, pk):
     update_form = UpdateForm()
-    images_form = ArticleImagesForm()
     article = Article.objects.get(pk=pk)
 
     if request.method == "POST":
@@ -97,5 +97,31 @@ def blog_update_view(request, pk):
                 imageobj.save()
 
             return redirect("blog:blog-detail", pk=pk)
-    ctx = {"update_form": update_form, "images_form": images_form, "article": article}
+    ctx = {
+        "update_form": update_form,
+        "article": article,
+    }
     return render(request, "blog/blog_update.html", ctx)
+
+
+@login_required
+def blog_upload_gallery_images_view(request, pk):
+    images_form = ArticleImagesForm()
+    article = Article.objects.get(pk=pk)
+
+    if request.method == "POST":
+        images_form = ArticleImagesForm(request.POST, request.FILES)
+        images = request.FILES.getlist("images")
+        for image in images:
+            imageobj = ArticleImage()
+            imageobj.article = article
+            imageobj.image = image
+            imageobj.image = image
+            imageobj.save()
+
+        return redirect("blog:blog-detail", pk=pk)
+    ctx = {
+        "images_form": images_form,
+        "article": article,
+    }
+    return render(request, "blog/blog_upload_images.html", ctx)

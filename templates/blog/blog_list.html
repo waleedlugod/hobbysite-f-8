@@ -1,6 +1,10 @@
 {% extends 'blog/base.html' %}
 {% block content %}
+
+{% if request.user.is_authenticated %}
 <h2> <a href="{{ create_url }}"> Create new article </a></h2>
+{% endif %} 
+
 <h2> Categories </h2>
 {% if request.user.is_authenticated %}
     <h3> My Articles </h3>
