@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Sum
+from django.forms import modelformset_factory
 from django.shortcuts import redirect, render
 
 from commissions.models import Commission, Job, JobApplication
@@ -60,6 +61,7 @@ def commission_detail(request, pk):
 def commission_create(request):
     commission_form = CommissionForm()
     job_form = JobForm()
+
     if request.method == "POST":
         commission_form = CommissionForm(request.POST)
         job_form = JobForm(request.POST)
@@ -71,18 +73,34 @@ def commission_create(request):
             job.commission = commission
             job_form.save()
             return redirect("commissions:commission_list")
+
     ctx = {"commission_form": commission_form, "job_form": job_form}
     return render(request, "commission/commission_create.html", ctx)
 
 
 @login_required
 def commission_edit(request, pk):
+    commission_jobs = Commission.objects.get(pk=pk).job
     commission_form = CommissionForm()
+    job_formset = modelformset_factory(
+        Job,
+        extra=0,
+        exclude=["commission"]
+    )
+    job_forms = job_formset()
+
     if request.method == "POST":
         commission = Commission.objects.get(pk=pk)
         commission_form = CommissionForm(request.POST, instance=commission)
-        if commission_form.is_valid():
+        job_forms = job_formset(request.POST)
+        if commission_form.is_valid() and job_forms.is_valid():
             commission_form.save()
-    # TODO: make jobs editable
-    ctx = {"commission_form": commission_form}
+            job_forms.save()
+            return redirect("commissions:commission_detail", pk=pk)
+
+    ctx = {
+        "commission_jobs": commission_jobs.all(),
+        "commission_form": commission_form,
+        "job_forms": job_forms,
+    }
     return render(request, "commission/commission_edit.html", ctx)
