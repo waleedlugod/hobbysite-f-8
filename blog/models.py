@@ -22,13 +22,13 @@ class Article(models.Model):
         Profile,
         null=True,
         on_delete=models.SET_NULL,
-        related_name="articles",
+        related_name="blog_articles",
     )
     category = models.ForeignKey(
         "ArticleCategory",
         null=True,
         on_delete=models.SET_NULL,
-        related_name="articles",
+        related_name="blog_articles",
     )
     entry = models.TextField()
     header_image = models.ImageField(
@@ -49,10 +49,10 @@ class Article(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(
-        Profile, null=True, on_delete=models.SET_NULL, related_name="comments"
+        Profile, null=True, on_delete=models.SET_NULL, related_name="blog_comments"
     )
     article = models.ForeignKey(
-        "Article", on_delete=models.CASCADE, related_name="comments"
+        "Article", on_delete=models.CASCADE, related_name="blog_comments"
     )
     comment = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)

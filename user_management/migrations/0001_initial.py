@@ -20,10 +20,6 @@ class Migration(migrations.Migration):
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, related_name='profile', serialize=False, to=settings.AUTH_USER_MODEL)),
                 ('username', models.CharField(max_length=63, verbose_name='Display name')),
                 ('email', models.EmailField(default='example@example.com', max_length=254)),
-<<<<<<< HEAD
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-=======
->>>>>>> blog
             ],
         ),
     ]

@@ -52,16 +52,16 @@
     <p> Created on: {{ article.created_on }} </p>
     <p> Last updated on: {{ article.updated_on }}</p>
 
-    {% if article in request.user.profile.articles.all %}
+    {% if article in request.user.profile.blog_articles.all %}
         <p> <a href="{{ update_url }}"> Update this article </a></p>
     {% endif %}
 
     {% if request.user.is_authenticated %}
         <a> More articles from {{ request.user.profile }}: </a>
         <ul>
-        {% for other_article in request.user.profile.articles.all %}
+        {% for other_article in request.user.profile.blog_articles.all %}
             {% if other_article != article %}
-            <li> <a href="{{ article.get_absolute_url }}"> {{ other_article }} </a></li>
+            <li> <a href="{{ other_article.get_absolute_url }}"> {{ other_article }} </a></li>
             {% endif %}
         {% endfor %}
          </ul>
@@ -73,7 +73,7 @@
         {{ comment_form.as_div }}
         <button type="submit"> Submit </button>
     </form>
-    {% for commentobj in article.comments.all %}
+    {% for commentobj in article.blog_comments.all %}
         <p> {{ commentobj.author }}: {{ commentobj.comment }} </p>
     {% endfor %}
 
