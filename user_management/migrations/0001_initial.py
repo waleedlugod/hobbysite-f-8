@@ -10,17 +10,20 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('auth', '0012_alter_user_first_name_max_length'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Profile',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, related_name='profile', serialize=False, to=settings.AUTH_USER_MODEL)),
                 ('username', models.CharField(max_length=63, verbose_name='Display name')),
                 ('email', models.EmailField(default='example@example.com', max_length=254)),
+<<<<<<< HEAD
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+=======
+>>>>>>> blog
             ],
         ),
     ]

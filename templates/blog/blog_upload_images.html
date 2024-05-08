@@ -1,0 +1,10 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+
+<h3> Upload images for {{ article }} </h3>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ images_form.as_div }}
+    <button type="submit"> Upload </button>
+</form>
+{% endblock %}

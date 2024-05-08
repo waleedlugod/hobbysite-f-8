@@ -1,15 +1,36 @@
 {% extends 'blog/base.html' %}
 {% block content %}
+
+{% if request.user.is_authenticated %}
+<h2> <a href="{{ create_url }}"> Create new article </a></h2>
+{% endif %} 
+
 <h2> Categories </h2>
+{% if request.user.is_authenticated %}
+    <h3> My Articles </h3>
+    <ul>
+    {% for article in request.user.profile.articles.all %}
+        <li>
+            <a href="{{ article.get_absolute_url }}">  {{ article }} </a>
+        </li>
+    {% endfor %}
+    </ul>
+
+{% endif %} 
+
 {% for category in categories %}
     <h3> {{ category }} </h3>   
     <ul>
         {% for article in category.articles.all %}
-            <li> 
-                <a href="{{ article.get_absolute_url }}"> 
-                    {{ article }} 
-                </a> 
-            </li>
+            {% if request.user.is_authenticated %}
+                {% if article not in request.user.profile.articles.all %}
+                <li> 
+                    <a href="{{ article.get_absolute_url }}"> {{ article }} </a> 
+                </li>
+                {% endif %}
+            {% else %}
+                <li> <a href="{{ article.get_absolute_url }}"> {{ article }} </a></li>
+            {% endif %}
         {% endfor %}
     </ul>
 {% endfor %}
