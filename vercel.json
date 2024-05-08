@@ -1,14 +1,14 @@
 {
   "builds": [
     {
-      "src": "project/asgi.py",
+      "src": "hobbysite/asgi.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "project/asgi.py"
+      "dest": "hobbysite/asgi.py"
     }
   ]
 }
