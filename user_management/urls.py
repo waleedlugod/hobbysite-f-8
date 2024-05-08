@@ -1,10 +1,11 @@
-from django.urls import include, path
-from .views import register_view, profile_index, profile_update
+from django.urls import path
+
+from .views import profile_dashboard, profile_update, register_view
 
 urlpatterns = [
-    path("", profile_index, name="profile-index"),
+    path("", profile_update, name="update"),
+    path("dashboard/", profile_dashboard, name="dashboard"),
     path("register/", register_view, name="register"),
-    path("update/", profile_update, name="update"),
 ]
 
 app_name = "user_management"
