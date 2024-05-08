@@ -98,7 +98,7 @@ def commission_edit(request, pk):
             is_all_jobs_full = True
             for form_no in range(commission_jobs.count()):
                 if (
-                    request.POST["form-{form_no}-status".format(form_no=form_no)]
+                    request.POST[f"form-{form_no}-status"]
                     is not Job.FULL
                 ):
                     is_all_jobs_full = False
