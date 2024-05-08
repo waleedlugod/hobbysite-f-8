@@ -28,11 +28,20 @@
         {% endif %}
     {% endif %}
 
+    <h2> Image Gallery </h2>
+    <p> <a href='{% url 'wiki:article-upload-images' pk=this_article.pk %}'> Upload more images </a> </p>
+    
+    {% for imageobj in this_article.images.all %}
+        <div class = "gallery">
+            <img src="{{ imageobj.image.url}}" width="60%">
+        </div>
+    {% endfor %}
+
     {% for comment in comments %}
         {% if comment.article == this_article %}
             <p> {{comment.author.username}}: {{comment.entry}} </p>
         {% endif %}
     {% endfor %}
 
-    <a href='{% url 'wiki:article-list' %}'> Back? </a>
+    <p> <a href='{% url 'wiki:article-list' %}'> Back? </a> </p>
 {% endblock %}

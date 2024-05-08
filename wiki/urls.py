@@ -5,6 +5,7 @@ from .views import (
     article_detail_view,
     article_update_view,
     article_create_view,
+    article_upload_image_view,
 )
 
 urlpatterns = [
@@ -12,6 +13,11 @@ urlpatterns = [
     path("article/<int:pk>", article_detail_view, name="article-detail"),
     path("article/<int:pk>/edit", article_update_view, name="article-update"),
     path("article/add", article_create_view, name="article-create"),
+    path(
+        "article/<int:pk>/add_images",
+        article_upload_image_view,
+        name="article-upload-images",
+    ),
 ]
 
 app_name = "wiki"

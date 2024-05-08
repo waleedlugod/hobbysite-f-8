@@ -53,3 +53,10 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ["created_on"]
+
+
+class ArticleImage(models.Model):
+    article = models.ForeignKey(
+        Article, on_delete=models.CASCADE, related_name="images"
+    )
+    image = models.FileField(upload_to="images/", null=False)

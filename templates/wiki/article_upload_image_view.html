@@ -4,12 +4,11 @@
 
     {% block content %}
         <body>
-            <h1> Update article? </h1>
+            <h1> Upload images for {{article}} </h1>
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form }}
-                {{ image_form }}
-                <input type="submit" value="Submit">
+                {{ images_form.as_div }}
+                <button type="submit"> Upload </button>
             </form>
         </body>
     {% endblock %}
