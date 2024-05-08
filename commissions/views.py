@@ -87,10 +87,27 @@ def commission_edit(request, pk):
     job_forms = job_formset(queryset=Job.objects.filter(commission=commission))
 
     if request.method == "POST":
+
         commission_form = CommissionForm(request.POST, instance=commission)
         job_forms = job_formset(request.POST)
+
         if commission_form.is_valid() and job_forms.is_valid():
-            commission_form.save()
+
+            commission = commission_form.save(commit=False)
+
+            is_all_jobs_full = True
+            for form_no in range(commission_jobs.count()):
+                if (
+                    request.POST["form-{form_no}-status".format(form_no=form_no)]
+                    is not Job.FULL
+                ):
+                    is_all_jobs_full = False
+                    break
+
+            if is_all_jobs_full:
+                commission.status = Commission.FULL
+
+            commission.save()
             job_forms.save()
             return redirect("commissions:commission_detail", pk=pk)
 
