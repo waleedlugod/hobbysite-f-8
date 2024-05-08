@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.contrib.auth.decorators import login_required
 
 from .models import Article, ArticleCategory
@@ -6,7 +6,10 @@ from .models import Article, ArticleCategory
 
 def blog_list_view(request):
     categories = ArticleCategory.objects.all()
-    ctx = {"categories": categories}
+    ctx = {
+        "categories": categories,
+        "register_url": reverse("user_management:register"),
+    }
 
     return render(request, "blog/blog_list.html", ctx)
 
