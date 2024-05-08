@@ -61,7 +61,7 @@
         <ul>
         {% for other_article in request.user.profile.articles.all %}
             {% if other_article != article %}
-            <li> <a href="{{ article.get_absolute_url }}"> {{ other_article }} </a></li>
+            <li> <a href="{{ other_article.get_absolute_url }}"> {{ other_article }} </a></li>
             {% endif %}
         {% endfor %}
          </ul>
