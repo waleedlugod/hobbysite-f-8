@@ -52,7 +52,7 @@ class Comment(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["created_on"]
+        ordering = ["-created_on"]
 
 
 class ArticleImage(models.Model):
