@@ -1,9 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 from .models import Product, Transaction
 from .forms import ProductForm, TransactionForm
-from django.contrib.auth.decorators import login_required
 
 
 def product_list(request):
