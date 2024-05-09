@@ -1,39 +1,31 @@
 {% extends 'merchstore/base.html' %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product</title>
-</head>
-<body>
-    {% block content %}
-    User: {{ user }}
-    <h2> Product: {{ product.name }} </h2>
-    <h2> Type: {{ product.type }} </h2>
-    <p><b><i> {{product.price }} Pesos </i></b></p>
-    <p> {{ product.description }} </p>
+{% block content %}
+{% if user != "Anonymous" %}
     <br>
-    <b>Status: {{ product.get_status }}</b>
-    <b>Stock: {{stock}}</b>
+    <a href="{% url 'merchstore:list' %}">BACK TO PRODUCT LIST</a>
+    <h1>Product</h1>
+    <h2> {{ product.name }} </h2>
+    <h3><b><i> {{product.price }} Pesos per piece </i></b></h3>
+    <p><b>Type: </b>{{ product.type }} </h3>
+    <p><b>Description: </b>{{ product.description }} </p>
+    <p><b>Owner: </b>{{ product.owner.user }}</p>
+    <p><b>Status: </b>{{ product.get_status_display }}</p>
+    <p><b>Stock: </b>{{ product.stock }}</p>
     <br>
-
-    {% if logged user != owner and status == "ON_SALE" %}
-    <form method="POST">
-        {% csrf_token %}
-        {{ form }}
-
-        {% if stock == 0 %}
-        <button disabled>BUY NOW</button>
-        {% else %}
-        <button>BUY NOW</button>
-        {% endif %}
-    </form>
-    {% endif %}
-
-    {% if logged_user == owner %}
-    <a href="{% url 'merchstore:product_update' pk=product.pk %}">Update Product Details</a>
-    {% endif %}
-    {% endblock %}
-</body>
-</html>
+    {% if user == product.owner.user %}
+    <a href="{% url 'merchstore:product_edit' pk=product.pk %}">UPDATE</a>
+    {% else %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            {% if product.stock == 0 %}
+                <button disabled>BUY</button>
+            {% else %}
+                <button>BUY</button>
+            {% endif %}
+        </form>
+    {% endif%}
+{% else %}
+    <p>Please <a href="{% url 'login' %}">log in</a> to purchase this product.</p>
+{% endif %}
+{% endblock %}

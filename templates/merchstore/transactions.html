@@ -1,24 +1,21 @@
 {% extends 'merchstore/base.html' %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{user}}'s Transactions</title>
-</head>
-<body>
-    {% block content %}
-    <ul> 
+{% block content %}
+<br>
+<a href="{% url 'merchstore:list' %}">BACK TO PRODUCT LIST</a>
+<h1>Your Transactions</h1>
     {% for transaction in transactions %}
-    <li>
-        <h3> Product: {{ transaction.product.name }} </h3>
-        <b> P{{ transaction.amount }} </b>
-        Sold to: {{ transaction.buyer }}
-        Sold on: {{ transaction.created_on }}
-        Status: {{ transaction.get_status }}
-    </li>
+    {% if transaction.product.owner != transaction.buyer %}
+    <h3> Product:         
+    <a href="{% url 'merchstore:detail' pk=transaction.product.pk %}">{{ transaction.product.name }}</a>
+    </h3>
+    <b> Pieces: {{ transaction.amount }} </b>
+    <br>
+    Sold to: {{ transaction.buyer.user }}
+    <br>
+    Date of purchase: {{ transaction.created_on }}
+    <br>
+    Status: {{ transaction.get_status_display }}
+    {% endif %}
+    <br>
     {% endfor %}
-    </ul>
-    {% endblock %}
-</body>
-</html>
+{% endblock %}
