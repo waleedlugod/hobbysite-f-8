@@ -1,0 +1,24 @@
+{% extends 'merchstore/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user }}'s Cart</title>
+</head>
+<body>
+    <ul>
+    {% for product in cart %}
+        <li>
+            {{ cart.product.name }}
+            P{{ cart.amount }}
+            <br>
+            Seller: {{ cart.product.owner }}
+            Status: {{ cart.status }}
+        </li>
+    {% endfor %}
+    </ul>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
