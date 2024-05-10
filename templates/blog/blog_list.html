@@ -1,24 +1,27 @@
-{% extends 'blog/base.html' %}
+{% extends 'base.html' %}
+{% block app %} Blog {% endblock %}
 {% block content %}
 
-{% if request.user.is_authenticated %}
-<h2> <a href="{{ create_url }}"> Create new article </a></h2>
-{% endif %} 
+<div class="divider"> </div>
+<div class="header">  BLOG  </div>
+<div class="line-divider"> </div>
 
-<h2> Categories </h2>
+<div class="list-container center">
 {% if request.user.is_authenticated %}
-    <h3> My Articles </h3>
-    <ul>
-    {% for article in request.user.profile.articles.all %}
-        <li>
-            <a href="{{ article.get_absolute_url }}">  {{ article }} </a>
-        </li>
-    {% endfor %}
-    </ul>
-
+    <div class="list-item">
+        <h3> My Articles </h3>
+        <ul>
+        {% for article in request.user.profile.articles.all %}
+            <li>
+                <a href="{{ article.get_absolute_url }}">  {{ article }} </a>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
 {% endif %} 
 
 {% for category in categories %}
+    <div class="list-item">
     <h3> {{ category }} </h3>   
     <ul>
         {% for article in category.articles.all %}
@@ -33,5 +36,14 @@
             {% endif %}
         {% endfor %}
     </ul>
+    </div>
 {% endfor %}
+</div>
+</div>
+
+<div class="center create-link">
+    {% if request.user.is_authenticated %}
+    <h2> <a href="{{ create_url }}"> Create new article? </a></h2>
+    {% endif %} 
+
 {% endblock %}
