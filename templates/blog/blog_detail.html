@@ -1,91 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Article </title>
+
+    {% block styles %}
     <style>
-      div.gallery {
-        margin: 5px;
-        border: 1px solid #ccc;
-        float: left;
-        width: 180px;
-      }
-      
-      div.gallery:hover {
-        border: 1px solid #777;
-      }
-      
-      div.gallery img {
-        width: 100%;
-        height: auto;
-      }
-      
-      div.desc {
-        padding: 15px;
-        text-align: center;
-      }
-      </style>
-
+        .gallery {
+            display: grid;
+            grid-template-columns: 210px 210px 210px;
+            gap: 8px;
+            margin: 5px;
+            height: auto;
+        }
+        .gallery-item > img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    {% endblock %}
 </head>
+
+
 <body>
-	<h1> Blog </h1>
-    {% if request.user.is_authenticated %}
-        <h3> Welcome {{ request.user.username }}! </h3>
-        <form action="{% url 'logout' %}" method="POST">
-            {% csrf_token %}
-            <button type="submit">LOG OUT</button>
-        </form>
-    {% else %}
-        <h3> Hello guest! </h3>
-        <a href="{% url 'login' %}"> LOGIN HERE </a>
-        <h4> Don't have an account? <a href="{{ register_url }}"> Sign up here!</a></h4>
-    {% endif %}
+    {% block content %}
+    <div class="divider"> </div>
+    <div class="article center">
+        <div class="article-header header"> 
+            <div>
+                <h2 class="category"> {{ article.category }} </h2>
+                <h2 class="title"> {{ article.title }} </h2> 
+            </div>
+            <div>
+                <h2 class="author bottom"> {{ article.author }} </h2>
+                <h2 class="create-date bottom"> {{ article.created_on }} </h2>
+            </div>
+        </div>
+
+        <img class="header-img" src="{{ article.header_image.url }}"></img>
+
+        <p> {{ article.entry }} </p>
+        <!-- <p> Last updated on: {{ article.updated_on }}</p> -->
+
+        {% if article in request.user.profile.articles.all %}
+            <div class="create-link">
+                <a href="{{ update_url }}"> Edit this article? </a>
+            </div>  
+        {% endif %}
+      
+ 
+            
+        <div class="category" style="font-size: 30px;"> gallery </div>
+        <div class="article-line-divider"> </div>
+        <div class="gallery">
+            {% for imageobj in article.images.all %}
+                <div class="gallery-item"> <img src="{{ imageobj.image.url }} "> </div>
+            {% endfor %}
+        </div>
+        <div class="create-link"> <a href="{{ upload_images_url }}"> Upload more images? </a> </div>
 
 
-    <p> <a href="{{ blog_list_url }}"> All Articles </a> </p>
-    <image src="{{ article.header_image.url }}"></image>
-    <h2> {{ article.title }} </h2>
-    <h3> {{ article.category }} </h3>
+        
 
-    <p> {{ article.entry }} </p>
-    <p> Created on: {{ article.created_on }} </p>
-    <p> Last updated on: {{ article.updated_on }}</p>
+        <div class="divider"></div>
+        <div class="category" style="font-size: 30px;"> comments </div>
+        <div class="article-line-divider"> </div>
 
-    {% if article in request.user.profile.articles.all %}
-        <p> <a href="{{ update_url }}"> Update this article </a></p>
-    {% endif %}
+        <div class="comment-section">
+            {% for commentobj in article.comments.all %}
+                <p> {{ commentobj.author }}: {{ commentobj.comment }} </p>
+            {% endfor %}
+            <form method="POST">
+                {% csrf_token %}
+                {{ comment_form.as_div }}
+                <button type="submit"> Submit </button>
+            </form>
+        </div>
 
-    {% if request.user.is_authenticated %}
-        <a> More articles from {{ request.user.profile }}: </a>
-        <ul>
-        {% for other_article in request.user.profile.articles.all %}
-            {% if other_article != article %}
-            <li> <a href="{{ other_article.get_absolute_url }}"> {{ other_article }} </a></li>
-            {% endif %}
-        {% endfor %}
-         </ul>
-    {% endif %}
-
-    <h2> Comments </h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ comment_form.as_div }}
-        <button type="submit"> Submit </button>
-    </form>
-    {% for commentobj in article.comments.all %}
-        <p> {{ commentobj.author }}: {{ commentobj.comment }} </p>
-    {% endfor %}
-
-    <h2> Image Gallery </h2>
-    <p> <a href="{{ upload_images_url }}"> Upload more images </a></p>
-   
-    {% for imageobj in article.images.all %}
-    <div class="gallery">
-        <img src="{{ imageobj.image.url }} " width="600" height="400">
+        <div class="divider"></div>
+        
     </div>
-    {% endfor %}
+    
+    {% if request.user.is_authenticated %}
+    <div class="article-recommendations">
+            <a class="category" style="text-align: left"> Read more from {{ article.author }}: </a>
+            <div class="recommendation-grid"> 
+            {% for other_article in article.author.articles.all %}
+                {% if other_article != article %}
+                <p class="recommendation-grid-item"> <a href="{{ other_article.get_absolute_url }}"> {{ other_article }} </a> </p>
+                {% endif %}
+            {% endfor %}
+            </div>
+            </ul>
+        {% endif %}
+    </div>
+
+        <a href="{{ blog_list_url }}"> <button class="back"> Back? </button> </a>
+    {% endblock%}
 
 
 </body>
-</html>

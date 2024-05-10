@@ -1,4 +1,6 @@
-{% extends "commission/base.html" %}
+{% extends "base.html" %}
+{% block app %} Commission {% endblock %}
+
 {% block content %}
 	<h1>{{ commission_detail.title }}</h1>
 	<p>People required: {{ commission_detail.people_required }}</p>
