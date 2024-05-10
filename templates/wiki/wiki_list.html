@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-{% block app %} Blog {% endblock %}
+{% block app %} Wiki {% endblock %}
 {% block content %}
 
 <div class="peach-bg"> 
-    <h1 class="header">  BLOG  </h1>
+    <h1 class="header">  WIKI  </h1>
     <div class="line-divider" style="width: 280px;"> </div>
 </div>
 
@@ -13,7 +13,7 @@
         <div class="list-item bold-black">
             <h3> My Articles </h3>
             <ul>
-            {% for article in request.user.profile.blog_articles.all %}
+            {% for article in request.user.profile.articles.all %}
                 <li>
                     <a href="{{ article.get_absolute_url }}">  {{ article }} </a>
                 </li>
@@ -26,9 +26,9 @@
         <div class="list-item">
             <h3> {{ category }} </h3>   
             <ul>
-                {% for article in category.blog_articles.all %}
+                {% for article in category.articles.all %}
                     {% if request.user.is_authenticated %}
-                        {% if article not in request.user.profile.blog_articles.all %}
+                        {% if article not in request.user.profile.articles.all %}
                         <li>  <a href="{{ article.get_absolute_url }}"> {{ article }} </a> </li>
                         {% endif %}
                     {% else %}
@@ -42,8 +42,8 @@
 
 <div class="center create-link">
     {% if request.user.is_authenticated %}
-    <h2> <a href="{{ create_url }}"> Create new article? </a></h2>
+    <h2> <a href="{% url 'wiki:article-create' %}"> Create new article? </a></h2>
     {% endif %} 
 </div>
-
 {% endblock %}
+

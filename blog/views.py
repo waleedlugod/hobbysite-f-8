@@ -89,13 +89,6 @@ def blog_update_view(request, pk):
             article.header_image = update_form.cleaned_data.get("header_image")
             article.save()
 
-            images = request.FILES.getlist("images")
-            for image in images:
-                imageobj = ArticleImage()
-                imageobj.article = article
-                imageobj.image = image
-                imageobj.save()
-
             return redirect("blog:blog-detail", pk=pk)
     ctx = {
         "update_form": update_form,

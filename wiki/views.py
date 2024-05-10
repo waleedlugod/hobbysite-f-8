@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from .models import Article, ArticleCategory, Comment, ArticleImage
@@ -6,10 +6,10 @@ from .forms import ArticleCreateForm, CommentForm, ArticleImagesForm
 
 
 def article_list_view(request):
-    category = ArticleCategory.objects.all()
-    article = Article.objects.all()
-    ctx = {"categories": category, "articles": article}
-    return render(request, "wiki/article_list_view.html", ctx)
+    categories = ArticleCategory.objects.all()
+    articles = Article.objects.all()
+    ctx = {"categories": categories, "articles": articles}
+    return render(request, "wiki/wiki_list.html", ctx)
 
 
 def article_detail_view(request, pk):
@@ -25,14 +25,15 @@ def article_detail_view(request, pk):
             comment.article = Article.objects.get(pk=pk)
             comment.entry = form.cleaned_data.get("entry")
             comment.save()
+            form = CommentForm()
     ctx = {
-        "this_article": Article.objects.get(pk=pk),
+        "article": Article.objects.get(pk=pk),
         "categories": category,
         "all_articles": all_articles,
         "comments": comments,
         "form": form,
     }
-    return render(request, "wiki/article_detail_view.html", ctx)
+    return render(request, "wiki/wiki_detail.html", ctx)
 
 
 @login_required
@@ -50,8 +51,9 @@ def article_update_view(request, pk):
             article.header_image = form.cleaned_data.get("header_image")
             article.save()
 
-    ctx = {"form": form}
-    return render(request, "wiki/article_update_view.html", ctx)
+            return redirect("wiki:article-detail", pk=pk)
+    ctx = {"form": form, "article": article}
+    return render(request, "wiki/wiki_update.html", ctx)
 
 
 @login_required
@@ -71,14 +73,15 @@ def article_create_view(request):
             article.header_image = form.cleaned_data.get("header_image")
             article.save()
 
-        images = request.FILES.getlist("images")
-        for image in images:
-            imageobj = ArticleImage()
-            imageobj.article = article
-            imageobj.image = image
-            imageobj.save()
+            images = request.FILES.getlist("images")
+            for image in images:
+                imageobj = ArticleImage()
+                imageobj.article = article
+                imageobj.image = image
+                imageobj.save()
+
     ctx = {"form": form, "image_form": image_form}
-    return render(request, "wiki/article_create_view.html", ctx)
+    return render(request, "wiki/wiki_create.html", ctx)
 
 
 @login_required
@@ -94,12 +97,14 @@ def article_upload_image_view(request, pk):
             imageobj.article = article
             imageobj.image = image
             imageobj.save()
+
+        return redirect("wiki:article-detail", pk=pk)
     ctx = {
         "images_form": images_form,
         "article": article,
     }
 
-    return render(request, "wiki/article_upload_image_view.html", ctx)
+    return render(request, "wiki/wiki_upload_images.html", ctx)
 
 
 # Create your views here.

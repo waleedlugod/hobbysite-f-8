@@ -12,6 +12,12 @@ html, body {
     margin: auto;
 }
 
+.peach-bg {
+    background-color: #FFDBDB;
+    height: 350px;  
+    padding-top: 95px;
+}
+
 
 .list-container {
     display: grid;
@@ -22,7 +28,7 @@ html, body {
     padding: 50px;
     text-align: left;
     font-size: 20px;
-    font-weight:700;;
+    font-weight:700;
 }
 
 .list-item ul {
@@ -46,7 +52,7 @@ html, body {
     height:10px;
     background: #fc5457;
     margin: auto;
-    margin-top: 20px;  
+    margin-top: 5px;  
 }
 
 
@@ -213,7 +219,7 @@ html, body {
 
 .recommendation-grid {
     display: grid;
-    grid-template-columns: 400px 400px 400px;
+    grid-template-columns: 300px 300px 300px;
     column-gap: 60px;
     row-gap: 10px;
     padding-left:20px

@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
-
+{% block app %} Wiki {% endblock%}
 {% block content %}
     <body>
-        <h1> Upload images for {{article}} </h1>
+        <h3> You are updating {{ article }} </h3>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ images_form.as_div }}
-            <button type="submit"> Upload </button>
+            {{ form }}
+            <input type="submit" value="Submit">
         </form>
     </body>
 {% endblock %}
+

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block app %} Blog {% endblock %}
+{% block app %} Wiki {% endblock %}
 {% block styles %}
     <style>
         .gallery {
@@ -34,9 +34,9 @@
         <p> {{ article.entry }} </p>
         <!-- <p> Last updated on: {{ article.updated_on }}</p> -->
 
-        {% if article in request.user.profile.blog_articles.all %}
+        {% if article in request.user.profile.articles.all %}
             <div class="create-link">
-                <a href="{{ update_url }}"> Edit this article? </a>
+                <a href="{% url 'wiki:article-update' pk=article.pk %}"> Edit this article? </a>
             </div>  
         {% endif %}
         
@@ -49,19 +49,19 @@
                 <div class="gallery-item"> <img src="{{ imageobj.image.url }} "> </div>
             {% endfor %}
         </div>
-        <div class="create-link"> <a href="{{ upload_images_url }}"> Upload more images? </a> </div>
+        <div class="create-link"> <a href="{% url 'wiki:article-upload-images' pk=article.pk %}"> Upload more images? </a> </div>
 
 
         <div class="white-divider"></div>
         <div class="category" style="font-size: 30px;"> comments </div>
         <div class="thin-line-divider"> </div>
         <div class="comment-section">
-            {% for commentobj in article.blog_comments.all %}
-                <p> {{ commentobj.author }}: {{ commentobj.comment }} </p>
+            {% for commentobj in article.comments.all %}
+                <p> {{ commentobj.author }}: {{ commentobj.entry }} </p>
             {% endfor %}
             <form method="POST">
                 {% csrf_token %}
-                {{ comment_form.as_div }}
+                {{ form.as_div }}
                 <button type="submit"> Submit </button>
             </form>
         </div>
@@ -71,9 +71,9 @@
 
     {% if request.user.is_authenticated %}
     <div class="article-recommendations">
-            <p class="category" style="text-transform: none; margin-bottom: 30px;"> Read more from {{ article.author }}: </p>
+            <p class="category" style="text-transform: none; margin-bottom: 30px;"> Read more {{ article.category }} articles </p>
             <div class="recommendation-grid"> 
-            {% for other_article in article.author.blog_articles.all %}
+            {% for other_article in article.category.articles.all %}
                 {% if other_article != article %}
                 <p class="recommendation-grid-item"> <a href="{{ other_article.get_absolute_url }}"> {{ other_article }} </a> </p>
                 {% endif %}
@@ -83,6 +83,6 @@
         {% endif %}
     </div>
 
-        <a href="{{ blog_list_url }}"> <button class="back"> Back? </button> </a>
+    <a href="{% url 'wiki:article-list' %}"> <button class="back"> Back? </button> </a>
 
 {% endblock%}
