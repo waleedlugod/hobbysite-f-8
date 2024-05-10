@@ -1,10 +1,5 @@
 {% extends 'base.html' %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Article </title>
-
-    {% block styles %}
+{% block styles %}
     <style>
         .gallery {
             display: grid;
@@ -18,13 +13,10 @@
             height: 100%;
         }
     </style>
-    {% endblock %}
-</head>
+{% endblock %}
 
-
-<body>
-    {% block content %}
-    <div class="divider"> </div>
+{% block content %}
+    <div class="white-divider"> </div>
     <div class="article center">
         <div class="article-header header"> 
             <div>
@@ -38,20 +30,19 @@
         </div>
 
         <img class="header-img" src="{{ article.header_image.url }}"></img>
-
         <p> {{ article.entry }} </p>
         <!-- <p> Last updated on: {{ article.updated_on }}</p> -->
 
-        {% if article in request.user.profile.articles.all %}
+        {% if article in request.user.profile.blog_articles.all %}
             <div class="create-link">
                 <a href="{{ update_url }}"> Edit this article? </a>
             </div>  
         {% endif %}
-      
- 
+        
+
             
         <div class="category" style="font-size: 30px;"> gallery </div>
-        <div class="article-line-divider"> </div>
+        <div class="thin-line-divider"> </div>
         <div class="gallery">
             {% for imageobj in article.images.all %}
                 <div class="gallery-item"> <img src="{{ imageobj.image.url }} "> </div>
@@ -60,14 +51,11 @@
         <div class="create-link"> <a href="{{ upload_images_url }}"> Upload more images? </a> </div>
 
 
-        
-
-        <div class="divider"></div>
+        <div class="white-divider"></div>
         <div class="category" style="font-size: 30px;"> comments </div>
-        <div class="article-line-divider"> </div>
-
+        <div class="thin-line-divider"> </div>
         <div class="comment-section">
-            {% for commentobj in article.comments.all %}
+            {% for commentobj in article.blog_comments.all %}
                 <p> {{ commentobj.author }}: {{ commentobj.comment }} </p>
             {% endfor %}
             <form method="POST">
@@ -77,18 +65,14 @@
             </form>
         </div>
 
-        <div class="divider"></div>
-<<<<<<< HEAD
-=======
-        
->>>>>>> 3665f98e04d6f113b2aeee58774d7133ed438b95
+        <div class="white-divider"></div>
     </div>
-    
+
     {% if request.user.is_authenticated %}
     <div class="article-recommendations">
-            <a class="category" style="text-align: left"> Read more from {{ article.author }}: </a>
+            <p class="category" style="text-transform: none; margin-bottom: 30px;"> Read more from {{ article.author }}: </p>
             <div class="recommendation-grid"> 
-            {% for other_article in article.author.articles.all %}
+            {% for other_article in article.author.blog_articles.all %}
                 {% if other_article != article %}
                 <p class="recommendation-grid-item"> <a href="{{ other_article.get_absolute_url }}"> {{ other_article }} </a> </p>
                 {% endif %}
@@ -99,7 +83,5 @@
     </div>
 
         <a href="{{ blog_list_url }}"> <button class="back"> Back? </button> </a>
-    {% endblock%}
 
-
-</body>
+{% endblock%}

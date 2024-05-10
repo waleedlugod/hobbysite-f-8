@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html>
-    {% extends 'wiki/base.html' %}
+{% extends 'base.html' %}
 
-    {% block content %}
-        <body>
-            <h1> Add new article? </h1>
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form }}
-                <input type="submit" value="Submit">
-            </form>
-        </body>
-    {% endblock %}
-    
-</html>
+{% block content %}
+    <body>
+        <h1> Add new article? </h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Submit">
+        </form>
+    </body>
+{% endblock %}

@@ -1,10 +1,54 @@
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+* { 
+    box-sizing: border-box; 
+    font-family: "Poppins", sans-serif;
+}
+
+html, body {
+    margin: 0; padding: 0; 
+}
 
 .center {
     max-width: 1000px;
     margin: auto;
 }
+
+
+.list-container {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.list-item {
+    padding: 50px;
+    text-align: left;
+    font-size: 20px;
+    font-weight:700;;
+}
+
+.list-item ul {
+    font-size: 15px;
+    text-align: left;
+    line-height: 1.8;
+    color: #FF5757;
+}
+
+.list-item a {
+    color: #FF5757;
+    text-decoration: none;
+}
+
+.list-item a:hover {
+    color: #8e7a72;
+}
+
+.line-divider {
+    width:500px;
+    height:10px;
+    background: #fc5457;
+    margin: auto;
+    margin-top: 20px;  
+}
+
 
 .article{
     max-width: 650px;
@@ -125,7 +169,6 @@ html, body { margin: 0; padding: 0; }
 }
 
 .header {
-    font-family: "Poppins", sans-serif;
     color: #fc5457;
     font-weight: 800;
     text-align: center;
@@ -135,51 +178,12 @@ html, body { margin: 0; padding: 0; }
     border: 1px;
 } 
 
-.divider {
+.white-divider {
     background: white;
     padding: 35px;
 }
 
-.list-container {
-    display: grid;
-    grid-template-columns: auto auto;
-}
-
-.list-item {
-    padding: 50px;
-    text-align: left;
-    border: 10px black;
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-
-}
-
-.list-item ul {
-    font-size: 15px;
-    text-align: left;
-    line-height: 1.8;
-    color: #FF5757;
-}
-
-.list-item a {
-    color: #FF5757;
-    text-decoration: none;
-}
-
-.list-item a:hover {
-    color: #8e7a72;
-}
-
-.line-divider {
-    width:500px;
-    height:10px;
-    background: #fc5457;
-    margin: auto;
-    margin-top: 20px;  
-}
-
-.article-line-divider {
+.thin-line-divider {
     width: 100%;
     height:2px;
     background: #fc5457;
@@ -205,17 +209,17 @@ html, body { margin: 0; padding: 0; }
 
 .article-recommendations {
     height: 500;
-    padding: 100px;
+    padding: 30px 50px 30px;
     background: #FFDBDB;
     margin: auto;
 }
 
 .recommendation-grid {
     display: grid;
-    border: 1px black;
     grid-template-columns: 400px 400px 400px;
     column-gap: 60px;
     row-gap: 10px;
+    padding-left:20px
 }
 
 .recommendation-grid-item a{

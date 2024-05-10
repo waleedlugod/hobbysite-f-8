@@ -2,48 +2,46 @@
 {% block app %} Blog {% endblock %}
 {% block content %}
 
-<div class="divider"> </div>
+<div class="white-divider"> </div>
 <div class="header">  BLOG  </div>
 <div class="line-divider"> </div>
 
 <div class="list-container center">
-{% if request.user.is_authenticated %}
-    <div class="list-item">
-        <h3> My Articles </h3>
-        <ul>
-        {% for article in request.user.profile.articles.all %}
-            <li>
-                <a href="{{ article.get_absolute_url }}">  {{ article }} </a>
-            </li>
-        {% endfor %}
-        </ul>
-    </div>
-{% endif %} 
-
-{% for category in categories %}
-    <div class="list-item">
-    <h3> {{ category }} </h3>   
-    <ul>
-        {% for article in category.articles.all %}
-            {% if request.user.is_authenticated %}
-                {% if article not in request.user.profile.articles.all %}
-                <li> 
-                    <a href="{{ article.get_absolute_url }}"> {{ article }} </a> 
+    {% if request.user.is_authenticated %}
+        <div class="list-item bold-black">
+            <h3> My Articles </h3>
+            <ul>
+            {% for article in request.user.profile.blog_articles.all %}
+                <li>
+                    <a href="{{ article.get_absolute_url }}">  {{ article }} </a>
                 </li>
-                {% endif %}
-            {% else %}
-                <li> <a href="{{ article.get_absolute_url }}"> {{ article }} </a></li>
-            {% endif %}
-        {% endfor %}
-    </ul>
-    </div>
-{% endfor %}
-</div>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %} 
+
+    {% for category in categories %}
+        <div class="list-item">
+            <h3> {{ category }} </h3>   
+            <ul>
+                {% for article in category.blog_articles.all %}
+                    {% if request.user.is_authenticated %}
+                        {% if article not in request.user.profile.blog_articles.all %}
+                        <li>  <a href="{{ article.get_absolute_url }}"> {{ article }} </a> </li>
+                        {% endif %}
+                    {% else %}
+                        <li> <a href="{{ article.get_absolute_url }}"> {{ article }} </a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
 </div>
 
 <div class="center create-link">
     {% if request.user.is_authenticated %}
     <h2> <a href="{{ create_url }}"> Create new article? </a></h2>
     {% endif %} 
+</div>
 
 {% endblock %}
