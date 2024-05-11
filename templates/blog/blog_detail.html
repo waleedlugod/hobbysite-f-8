@@ -49,7 +49,9 @@
                 <div class="gallery-item"> <img src="{{ imageobj.image.url }} "> </div>
             {% endfor %}
         </div>
+        {% if article in request.user.profile.blog_articles.all %}
         <div class="create-link"> <a href="{{ upload_images_url }}"> Upload more images? </a> </div>
+        {% endif %}
 
 
         <div class="white-divider"></div>

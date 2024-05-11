@@ -5,9 +5,9 @@
 <div class="white-divider"> </div>
 <div class="white-divider"> </div>
 <div class="center center-text">
-    <h1 id="profile-header"> Welcome {{ request.user.profile}}! </h1>
+    <h1 id="profile-header"> Welcome {{ request.user.profile }}! </h1>
     <div class="thin-line-divider"></div>
-    <p style="text-align: center; color: #FF5757; font-size: 20px;"> <span class="black-bold-text" style="margin-right: 20px;"> email:</span> {{ user.email }} </p>
+    <p style="text-align: center; color: #FF5757; font-size: 20px;"> <span class="black-bold-text" style="margin-right: 20px;"> email:</span> {{ user.profile.email }} </p>
     <div style="margin-top: 50px; margin-bottom: 10px;"> <a href="{{ update_link }}"> <button class="profile">  Update  </button> </a> </div>
     <form action="{% url 'logout' %}" method="POST">
         {% csrf_token %}

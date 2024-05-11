@@ -81,6 +81,8 @@ def article_create_view(request):
                 imageobj.image = image
                 imageobj.save()
 
+            return redirect("wiki:article-list")
+
     ctx = {"form": form, "image_form": image_form}
     return render(request, "wiki/wiki_create.html", ctx)
 

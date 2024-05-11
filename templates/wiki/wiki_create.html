@@ -5,7 +5,9 @@
         <h1> Add new article? </h1>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form }}
+            {{ form.as_div }}
+            {{ image_form.as_div }}
+
             <input type="submit" value="Submit">
         </form>
     </body>

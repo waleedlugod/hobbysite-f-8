@@ -21,8 +21,12 @@ def profile_update(request):
     if request.method == "POST":
         form = ProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
+            request.user.username = form.cleaned_data.get("username")
+            request.user.email = form.cleaned_data.get("email")
             profile = form.save(commit=False)
             profile.user = request.user
+            profile.username = form.cleaned_data.get("username")
+            profile.email = form.cleaned_data.get("email")
             profile.save()
             return redirect("user_management:dashboard")
 
