@@ -1,18 +1,40 @@
-{% extends 'base.html' %}
-{% block app %} Merchstore {% endblock %}
-
+{% extends 'merchstore/base.html' %}
 {% block content %}
-<h2> Product Types </h2>
-{% for type in types %}
-    <h3> {{ type }} </h3>
-    <ul>
-        {% for product in type.products.all %}
-            <li>
-                <a href="{{ product.get_absolute_url }}">
-                    {{ product }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
-{% endfor %}
+
+{% if request.user.is_authenticated %}
+<br>
+<a href="{% url 'merchstore:cart' %}">YOUR CART</a>
+<br>
+<a href="{% url 'merchstore:transaction' %}">YOUR TRANSACTIONS</a>
+{% endif %}
+<h2>Product List</h2>
+
+{% if request.user.is_authenticated %}
+<h3>Your Products</h3>
+<a href="{% url 'merchstore:product_create' %}">Add a Product</a>
+<ul>
+    {% for product in user_products %}
+    <li>
+        <a href="{% url 'merchstore:detail' pk=product.pk %}">{{ product.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+<h3>All Products</h3>
+<ul>
+    {% for product in all_products %}
+    <li>
+        <a href="{% url 'merchstore:detail' pk=product.pk %}">{{ product.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<h3>All Products </h3>
+<ul>
+    {% for product in all_products %}
+    <li>
+        <a href="{% url 'merchstore:detail' pk=product.pk %}">{{ product.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
 {% endblock %}

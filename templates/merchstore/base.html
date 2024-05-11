@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Hobby site </title>
+</head>
+<body>
+	<h1> Merchandise Store </h1>
+    {% if request.user.is_authenticated %}
+        <h3> Welcome {{ request.user.username }}! </h3>
+        <form action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">LOG OUT</button>
+        </form>
+    {% else %}
+        <h3> Hello guest! </h3>
+        <a href="{% url 'login' %}"> LOGIN HERE </a>
+        <br>
+    {% endif %}
+
+	{% block content %}
+	{% endblock %}
+</body>
+</html>

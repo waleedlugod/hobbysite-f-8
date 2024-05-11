@@ -1,0 +1,21 @@
+{% extends 'merchstore/base.html' %}
+{% block content %}
+<br>
+<a href="{% url 'merchstore:list' %}">BACK TO PRODUCT LIST</a>
+<h1>Your Transactions</h1>
+    {% for transaction in transactions %}
+    {% if transaction.product.owner != transaction.buyer %}
+    <h3> Product:         
+    <a href="{% url 'merchstore:detail' pk=transaction.product.pk %}">{{ transaction.product.name }}</a>
+    </h3>
+    <b> Pieces: {{ transaction.amount }} </b>
+    <br>
+    Sold to: {{ transaction.buyer.user }}
+    <br>
+    Date of purchase: {{ transaction.created_on }}
+    <br>
+    Status: {{ transaction.get_status_display }}
+    {% endif %}
+    <br>
+    {% endfor %}
+{% endblock %}

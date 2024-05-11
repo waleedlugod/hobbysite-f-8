@@ -1,0 +1,28 @@
+{% extends 'merchstore/base.html' %}
+{% block content %}
+<br>
+<a href="{% url 'merchstore:list' %}">BACK TO PRODUCT LIST</a>
+{% if request.user.is_authenticated %}
+<h1>Your Cart</h1>
+<ul> 
+    {% for transaction in cart %}
+    <li>
+        <h3> Product:         
+        <a href="{% url 'merchstore:detail' pk=transaction.product.pk %}">{{ transaction.product.name }}</a>
+        </h3>
+        Pieces: {{ transaction.amount }}
+        <br>
+        Seller: {{ transaction.product.owner.user }}
+        <br>
+        Date of purchase: {{ transaction.created_on }}
+        <br>
+        Status: {{ transaction.get_status_display }}
+    </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <h3> Log in to access your cart. </h3>
+    <a href="{% url 'login' %}"> LOGIN HERE </a>
+    <br>
+{% endif %}
+{% endblock %}

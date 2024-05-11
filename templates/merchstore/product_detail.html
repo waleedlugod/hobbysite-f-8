@@ -1,10 +1,31 @@
-{% extends 'base.html' %}
-
-{% block app %} Merchstore {% endblock %}
-
+{% extends 'merchstore/base.html' %}
 {% block content %}
-<h2> Product: {{ product.name }} </h2>
-<h2> Type: {{ product.type }} </h2>
-<p><b><i> {{product.price }} Pesos </i></b></p>
-<p> {{ product.description }} </p>
+{% if user != "Anonymous" %}
+    <br>
+    <a href="{% url 'merchstore:list' %}">BACK TO PRODUCT LIST</a>
+    <h1>Product</h1>
+    <h2> {{ product.name }} </h2>
+    <h3><b><i> {{product.price }} Pesos per piece </i></b></h3>
+    <p><b>Type: </b>{{ product.type }} </h3>
+    <p><b>Description: </b>{{ product.description }} </p>
+    <p><b>Owner: </b>{{ product.owner.user }}</p>
+    <p><b>Status: </b>{{ product.get_status_display }}</p>
+    <p><b>Stock: </b>{{ product.stock }}</p>
+    <br>
+    {% if user == product.owner.user %}
+    <a href="{% url 'merchstore:product_edit' pk=product.pk %}">UPDATE</a>
+    {% else %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            {% if product.stock == 0 %}
+                <button disabled>BUY</button>
+            {% else %}
+                <button>BUY</button>
+            {% endif %}
+        </form>
+    {% endif%}
+{% else %}
+    <p>Please <a href="{% url 'login' %}">log in</a> to purchase this product.</p>
+{% endif %}
 {% endblock %}

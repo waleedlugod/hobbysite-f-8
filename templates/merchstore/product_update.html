@@ -1,0 +1,14 @@
+{% extends 'merchstore/base.html' %}
+{% block content %}
+<br>
+<a href="{% url 'merchstore:list' %}">BACK TO PRODUCT LIST</a>
+<h1>Product</h1>
+<b>Currently Editing: </b>{{ product.name }}
+<br>
+Seller: {{ request.user }}
+<form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">UPDATE</button>
+</form>
+{% endblock %}

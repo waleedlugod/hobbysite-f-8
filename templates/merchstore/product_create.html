@@ -1,0 +1,16 @@
+{% extends 'merchstore/base.html' %}
+{% block content %}
+<br>
+<a href="{% url 'merchstore:list' %}">BACK TO PRODUCT LIST</a>
+<h1>Create a Product</h1>
+{% if request.user.is_authenticated %}
+Seller: {{ request.user }}
+<form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">CREATE</button>
+</form>
+{% else %}
+<p>Please <a href="{% url 'login' %}">log in</a> to add a product.</p>
+{% endif %}
+{% endblock %}
