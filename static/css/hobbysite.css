@@ -1,0 +1,87 @@
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+}
+
+a { 
+	color: white;
+	text-decoration: none;
+}
+
+.title {
+	padding: 8rem;
+	text-align: center;
+	background: #ffdbdb;
+	font-size: 85px;
+	color: #ff5757;
+}
+
+.subtitle {
+	color: #8e7a72;
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.list-container>div:nth-of-type(3) .subtitle {
+	color: #ff5757;
+}
+
+.all-commissions .commissions-list .link-wrapper {
+	background: #ff5757;
+}
+
+.commissions-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.list-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: fit-content;
+	align-self: center;
+	gap: 5rem;
+}
+
+.commissions-list {
+	font-weight: bold;
+}
+
+.commissions-list .link-wrapper {
+	padding: 1rem 0.125rem;
+	background: #8e7a72;
+	text-align: center;
+	border-radius: 99rem;
+	font-weight: bold;
+}
+
+.list-container>div:nth-of-type(3) .link-wrapper {
+	background: #ff5757;
+}
+
+.commissions-list .link-wrapper a {
+	font-size: 25px;
+}
+
+.commissions-list p {
+	color: #8e7a72;
+}
+
+.commissions-list p span  {
+	color: #ff5757;
+}
+
+.create-commission-link {
+	color: #ff5757;
+	text-decoration: none;
+	text-align: right;
+	font-weight: bold;
+}
