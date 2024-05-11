@@ -1,4 +1,6 @@
-{% extends "commission/base.html" %}
+{% extends "base.html" %}
+{% block app %} Commission {% endblock %}
+
 {% block content %}
 <a href="/commissions/add">Create Commission</a>
 {% if request.user.is_authenticated %}

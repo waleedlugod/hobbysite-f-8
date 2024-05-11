@@ -1,4 +1,6 @@
-{% extends "commission/base.html" %}
+{% extends "base.html" %}
+{% block app %} Commission {% endblock %}
+
 {% block content %}
   <h1>{{ commission_detail.title }}</h1>
   <a href="/commissions/{{ commission_detail.id }}/edit" {% if request.user.profile != commission_detail.author %}hidden{% endif %}>Edit</a>
