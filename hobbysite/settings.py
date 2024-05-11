@@ -131,7 +131,7 @@ STATIC_URL = "static/"
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
 
-LOGIN_REDIRECT_URL = "/blog/articles"
+LOGIN_REDIRECT_URL = "/profile/dashboard"
 LOGOUT_REDIRECT_URL = "/accounts/login"
 
 # Default primary key field type

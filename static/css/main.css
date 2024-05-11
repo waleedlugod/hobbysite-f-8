@@ -12,6 +12,11 @@ html, body {
     margin: auto;
 }
 
+.black-bold-text {
+    color: black;
+    font-weight:700;
+}
+
 .peach-bg {
     background-color: #FFDBDB;
     height: 350px;  
@@ -19,9 +24,10 @@ html, body {
 }
 
 
-.list-container {
+.grid-container {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 50% 50%;
+    margin: auto;
 }
 
 .list-item {
@@ -179,9 +185,16 @@ html, body {
     text-align: center;
     font-size: 80px;
     margin: auto;
-    border-style: solid;
-    border: 1px;
 } 
+
+#profile-header {
+    color: #fc5457;
+    font-weight: 800;
+    text-align: center;
+    font-size: 50px;
+    margin: auto;
+    margin-bottom: -30px;
+}
 
 .white-divider {
     background: white;
@@ -268,6 +281,24 @@ button.back {
     background-color: #fc5457;
     color: white;
     position:absolute;
-    top: 100px;
+    top: 120px;
     right: 10px;
+}
+
+button.profile {
+    background-color: white;
+    color: #fc5457;
+    border: 3px solid #fc5457;
+    margin: auto;
+    width: 150px;
+}
+
+button.profile:hover {
+    background-color: #fc5457;
+    color: white;
+    border: 3px solid white;
+}
+
+.center-text {
+    text-align: center;
 }

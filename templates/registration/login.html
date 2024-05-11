@@ -1,17 +1,18 @@
-{% extends "registration/base.html" %} {% block content %}
+{% extends "base.html" %} {% block content %}
 <head>
   <title>Login Page</title>
 </head>
 <body>
-  <h1>LOGIN</h1>
-  <form method="POST">
-    {% csrf_token %} {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
+  <div class="center">
+    <h1>LOGIN</h1>
+    <form method="POST">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Login</button>
+    </form>
 
-  <p> </p><a href="{% url 'password_reset' %}"> Forgot Password </a> </p>
-  <p> Don't have an account? <a href="{% url 'user_management:register' %}"> Sign up here! </a></p>
-
+    <p> </p><a href="{% url 'password_reset' %}"> Forgot Password </a> </p>
+    <p> Don't have an account? <a href="{% url 'user_management:register' %}"> Sign up here! </a></p>
+  </div>
 </body>
 {% endblock%}
 

@@ -22,11 +22,5 @@
 	{% block content %}
 	{% endblock %}
 
-    {% if request.user.is_authenticated %}
-    {% else %}
-        <h3> Hello guest! </h3>
-        <a href="{% url 'login' %}"> LOGIN HERE </a>
-        <h4> Don't have an account? <a href="{{ register_url }}"> Sign up here!</a></h4>
-    {% endif %}
 </body>
 </html>

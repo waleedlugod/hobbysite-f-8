@@ -12,6 +12,7 @@ def article_list_view(request):
     return render(request, "wiki/wiki_list.html", ctx)
 
 
+@login_required
 def article_detail_view(request, pk):
     category = ArticleCategory.objects.all()
     all_articles = Article.objects.all()

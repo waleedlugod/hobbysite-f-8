@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from .forms import ProfileForm
+from .forms import ProfileForm, RegisterForm
+from .models import Profile
 
 
 @login_required
@@ -22,22 +24,30 @@ def profile_update(request):
             profile = form.save(commit=False)
             profile.user = request.user
             profile.save()
-            return redirect("registration/profile-index")
+            return redirect("user_management:dashboard")
 
     return render(request, "registration/profile_update.html", ctx)
 
 
 def register_view(request):
-    form = ProfileForm()
+    form = RegisterForm()
     message = ""
     if request.method == "POST":
-        form = ProfileForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = request.user
+            email = form.cleaned_data.get("email")
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            new_user = User.objects.create_user(username, email, password)
+            new_user.save()
+
+            profile = Profile()
+            profile.user = new_user
+            profile.username = form.cleaned_data.get("username")
+            profile.email = form.cleaned_data.get("email")
             profile.save()
 
-            message = f"{profile.username} has been successully created"
+            message = f"{username} has been successully created"
 
     ctx = {"form": form, "message": message}
     return render(request, "registration/register.html", ctx)
