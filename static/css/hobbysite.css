@@ -85,3 +85,90 @@ a {
 	text-align: right;
 	font-weight: bold;
 }
+
+.commission-detail-title {
+	color: white;
+	padding: 1rem 0.125rem;
+	background: #ff5757;
+	text-align: center;
+	border-radius: 99rem;
+}
+
+.detail-container {
+	width: 60%;
+	align-self: center;
+}
+
+.dates {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.jobs {
+	background: #ffdbdb;
+	width: 100vw;
+	align-self: center;
+	padding-inline: 20%;
+}
+
+.jobs-title {
+	font-weight: bold;
+	font-size: 40px;
+}
+
+.line {
+	width: 100%;
+	height: 2px;
+	background: black;
+	margin-block: 1rem;
+}
+
+.job {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.job .left {
+	background: white;
+	padding: 1rem;
+	border-radius: 99rem;
+	font-weight: bold;
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+}
+
+.job .left p:nth-of-type(2) {
+	color: #ff5757;
+	text-transform: lowercase;
+}
+
+.apply {
+	background: #ff5757;
+	border: none;
+	color: white;
+	font-weight: bold;
+	text-align: center;
+	padding: 1rem;
+	border-radius: 99rem;
+}
+
+.apply:disabled {
+	background: #8e7a72;
+	color: #d1d1d1;
+	cursor: not-allowed;
+}
+
+.manpower {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	font-weight: bold;
+}
+
+.manpower span {
+	color: #ff5757;
+}
