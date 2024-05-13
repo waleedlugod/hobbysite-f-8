@@ -1,31 +1,62 @@
-{% extends 'merchstore/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-{% if user != "Anonymous" %}
-    <br>
-    <a href="{% url 'merchstore:list' %}">BACK TO PRODUCT LIST</a>
-    <h1>Product</h1>
-    <h2> {{ product.name }} </h2>
-    <h3><b><i> {{product.price }} Pesos per piece </i></b></h3>
-    <p><b>Type: </b>{{ product.type }} </h3>
-    <p><b>Description: </b>{{ product.description }} </p>
-    <p><b>Owner: </b>{{ product.owner.user }}</p>
-    <p><b>Status: </b>{{ product.get_status_display }}</p>
-    <p><b>Stock: </b>{{ product.stock }}</p>
-    <br>
-    {% if user == product.owner.user %}
-    <a href="{% url 'merchstore:product_edit' pk=product.pk %}">UPDATE</a>
+
+<div class="peach-bg" style="height: 100vh"> 
+
+
+    {% if user != "Anonymous" %}
+        <br>
+        <div class="merch-icons">
+            <a href="{% url 'merchstore:cart' %}"> <i class="fa-solid fa-cart-shopping merch-icons hover"></i> </a>
+            <a href="{% url 'merchstore:transaction' %}"> <i class="fa-solid fa-credit-card merch-icons hover"></i> </a> 
+        </div>
+        
+        <div class="center merch-detail-bg">
+            <h3 class="lowercase orange" style="padding-left: 10px; margin-bottom: 6px"> {{ product.type }} </h3>
+            <div class="merch-header-container">
+                <div>
+                    <h3 class="white"> {{ product.name }} </h3>
+                </div>
+                
+                <div> 
+                    <h3 class="light-gray"> P {{product.price }} </h3>
+                </div>
+        </div>
+
+        <br>
+        <div class="merch-description-container">
+            <p>owner</p> <p>{{ product.owner.user }}</p>
+            <p>description</p> <p> {{ product.description }} </p>
+            <p>status</p> <p>{{ product.get_status_display }}</p>
+            <p>stock</p> <p>{{ product.stock }}</p>
+        </div>
+
+        {% if user == product.owner.user %}
+            <h2> <a class="update" href="{% url 'merchstore:product_edit' pk=product.pk %}">update product</a> </h2>
+        {% else %}
+            <div style="padding-left: 10px">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form }}
+                    {% if product.stock == 0 %}
+                        <button disabled>BUY</button>
+                    {% else %}
+                        <div class="center-text" style="padding-top: 30px">
+                            <button class="merch-buy">BUY</button>
+                        </div>
+                    {% endif %}
+                </form>
+            </div>
+        {% endif%}
+
+        <a href="{% url 'merchstore:list' %}"> <button class="back merch-back"> Back </button> </a>
+        </div>
+        
     {% else %}
-        <form method="POST">
-            {% csrf_token %}
-            {{ form }}
-            {% if product.stock == 0 %}
-                <button disabled>BUY</button>
-            {% else %}
-                <button>BUY</button>
-            {% endif %}
-        </form>
-    {% endif%}
-{% else %}
-    <p>Please <a href="{% url 'login' %}">log in</a> to purchase this product.</p>
-{% endif %}
+        <p>Please <a href="{% url 'login' %}">log in</a> to purchase this product.</p>
+    {% endif %}
+
+</div>
+
+
 {% endblock %}

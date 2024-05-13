@@ -1,40 +1,54 @@
-{% extends 'merchstore/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 
 {% if request.user.is_authenticated %}
-<br>
-<a href="{% url 'merchstore:cart' %}">YOUR CART</a>
-<br>
-<a href="{% url 'merchstore:transaction' %}">YOUR TRANSACTIONS</a>
+    <div class="merch-icons">
+        <a href="{% url 'merchstore:cart' %}"> <i class="fa-solid fa-cart-shopping merch-icons hover"></i> </a>
+        <a href="{% url 'merchstore:transaction' %}"> <i class="fa-solid fa-credit-card merch-icons hover"></i> </a> 
+    </div>
 {% endif %}
-<h2>Product List</h2>
 
-{% if request.user.is_authenticated %}
-<h3>Your Products</h3>
-<a href="{% url 'merchstore:product_create' %}">Add a Product</a>
-<ul>
-    {% for product in user_products %}
-    <li>
-        <a href="{% url 'merchstore:detail' pk=product.pk %}">{{ product.name }}</a>
-    </li>
-    {% endfor %}
-</ul>
-<h3>All Products</h3>
-<ul>
-    {% for product in all_products %}
-    <li>
-        <a href="{% url 'merchstore:detail' pk=product.pk %}">{{ product.name }}</a>
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<h3>All Products </h3>
-<ul>
-    {% for product in all_products %}
-    <li>
-        <a href="{% url 'merchstore:detail' pk=product.pk %}">{{ product.name }}</a>
-    </li>
-    {% endfor %}
-</ul>
-{% endif %}
+<div class="peach-bg center-text merch-title"> 
+    <i class="fa-solid fa-shop merch-icons header"></i>
+    <p class="header"> MERCHANDISE STORE </p> 
+</div>
+
+<div class="center" style="width: 700px;">
+    {% if request.user.is_authenticated %}
+        <div class="list-item merch">
+            <h3>your products</h3>
+            
+            {% for product in user_products %}
+                <div class="center">
+                <a href="{% url 'merchstore:detail' pk=product.pk %}"> <button class="merch">{{ product.name }} </button> </a> 
+                </div>
+            {% endfor %}
+            
+        </div>
+
+        <div class="create-link center-text">
+            <a href="{% url 'merchstore:product_create' %}">add a product</a>
+        </div>
+
+        <div class="list-item merch">
+            <h3>all products</h3>
+                {% for product in all_products %}
+                    <div class="center">
+                        <a href="{% url 'merchstore:detail' pk=product.pk %}">  <button class="merch"> {{ product.name }} </button> </a>
+                    </div>
+                {% endfor %}
+        </div>
+
+    {% else %}
+        <div class="list-item merch">
+            <h3>all products </h3>
+                {% for product in all_products %}
+                <div class="center">
+                    <a href="{% url 'merchstore:detail' pk=product.pk %}">  <button class="merch"> {{ product.name }} </button> </a>
+                </div>
+                {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
 {% endblock %}
