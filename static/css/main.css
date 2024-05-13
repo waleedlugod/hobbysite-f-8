@@ -445,5 +445,7 @@ a.update:hover{
     color: lightgrey;
 }
 
-
-
+.merch-title {
+	display: flex;
+	flex-direction: row;
+}
