@@ -1,31 +1,48 @@
 {% extends "base.html" %}
+{% load static %}
 {% block app %} Commission {% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/hobbysite.css' %}" type="text/css">
+{% endblock %}
 
 {% block content %}
-  <h1>{{ commission_detail.title }}</h1>
-  <a href="/commissions/{{ commission_detail.id }}/edit" {% if request.user.profile != commission_detail.author %}hidden{% endif %}>Edit</a>
-  <p>People required: {{ commission_detail.people_required }}</p>
-  <p>Submitted on {{ commission_detail.created_on }}</p>
-  <p>Edited on {{ commission_detail.updated_on }}</p>
-  <br/>
-  <p>{{ commission_detail.description }}</p>
-  <br/>
-  <h2>Jobs</h2>
-  <p>Total manpower: {{ total_manpower_required }}</p>
-  <p>Open manpower: {{ open_manpower }}</p>
-  {% for job in commission_jobs %}
-  <p>{{ job.role }}</p>
-  <p>{{ job.get_status_display }}</p>
-  <p>{{ job.manpower_required }} people required</p>
-  <form method="POST">
-  	{% csrf_token %}
-  	{{ form }}
-  	<input type="hidden" name="job" value="{{job}}">
-  	<input
-  	  type="submit"
-  	  value="Apply to Job"
-  	  {% if open_manpower == 0 %}disabled{% endif %}
-  	>
-  </form>
-  {% endfor %}
+<main>
+	<div class="detail-container">
+  	<h1 class="commission-detail-title">{{ commission_detail.title }}</h1>
+		<div class="dates">
+			<p>Submitted on {{ commission_detail.created_on }}</p>
+  		<p>Edited on {{ commission_detail.updated_on }}</p>
+		</div>
+  	<a href="/commissions/{{ commission_detail.id }}/edit" {% if request.user.profile != commission_detail.author %}hidden{% endif %}>Edit</a>
+		<p><b>Description:</b> {{ commission_detail.description }}</p>
+	</div>
+	<div class="jobs">
+		<h2 class="jobs-title">jobs</h2>
+		<div class="line"></div>
+  	{% for job in commission_jobs %}
+		<div class="job">
+			<div class="left">
+				<p>{{ job.role }}</p>
+  			<p>{{ job.get_status_display }}</p>
+				<p>{{ job.manpower_required }} pax</p>
+			</div>
+  		<form method="POST">
+  			{% csrf_token %}
+  			{{ form }}
+  			<input type="hidden" name="job" value="{{job}}">
+  			<input
+					class="apply"
+  			  type="submit"
+  			  value="Apply to Job"
+  			  {% if open_manpower <= 0 %}disabled{% endif %}
+  			>
+  		</form>
+		</div>
+  	{% endfor %}
+		<div class="manpower">
+			<p>Total manpower: <span>{{ total_manpower_required }}</span></p>
+  		<p>Open manpower: <span>{{ open_manpower }}</span></p>
+		</div>
+	</div>
+</main>
 {% endblock%}

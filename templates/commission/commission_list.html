@@ -1,37 +1,59 @@
 {% extends "base.html" %}
+{% load static %}
 {% block app %} Commission {% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/hobbysite.css' %}" type="text/css">
+{% endblock %}
 
 {% block content %}
-<a href="/commissions/add">Create Commission</a>
 {% if request.user.is_authenticated %}
-<h1>Commissions Created</h1>
-{% for commission in created_commission_list %}
-<li>
-  <a href="{{commission.get_absolute_url}}">{{commission.title}}</a>
-  <p>Submitted: {{ commission.created_on }}</p>
-  <p>Status: {{ commission.get_status_display }}</p>
-</li>
-<br/>
-{% endfor %}
-<h1>Commissions Applied To</h1>
-{% for commission in applied_commission_list %}
-<li>
-  <a href="{{commission.get_absolute_url}}">{{commission.title}}</a>
-  <p>Submitted: {{ commission.created_on }}</p>
-  <p>Status: {{ commission.get_status_display }}</p>
-</li>
-<br/>
-{% endfor %}
-{% endif %}
-<h1>All</h1>
-<ul>
-  {% for commission in commission_list %}
-  <li>
-  <a href="{{commission.get_absolute_url}}">{{commission.title}}</a>
-  <p>Submitted: {{ commission.created_on }}</p>
-  <p>Status: {{ commission.get_status_display }}</p>
-  </li>
-  <br/>
-  {% endfor %}
-</ul>
+<h1 class="title">COMMISSIONS</h1>
+<main>
+	<div class="list-container">
+		<div>
+			<h2 class="subtitle">my commissions</h2>
+			<div class="commissions-list">
+				{% for commission in created_commission_list %}
+				<div>
+				  <div class="link-wrapper">
+						<a href="{{commission.get_absolute_url}}">{{commission.title}}</a>
+					</div>
+					<p>Submitted: <span>{{ commission.created_on }}</span></p>
+				  <p>Status: <span>{{ commission.get_status_display }}</span></p>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+		<div>
+			<h2 class="subtitle">commissions applied to</h2>
+			<div class="commissions-list">
+			{% for commission in applied_commission_list %}
+				<div>
+					<div class="link-wrapper">
+						<a href="{{commission.get_absolute_url}}">{{commission.title}}</a>
+					</div>
+			  	<p>Submitted: <span>{{ commission.created_on }}</span></p>
+			  	<p>Status: <span>{{ commission.get_status_display }}</span></p>
+				</div>
+			{% endfor %}
+			</div>
+		</div>
+		{% endif %}
+		<div>
+			<h2 class="subtitle">all commissions</h2>
+			<div class="commissions-list">
+				{% for commission in commission_list %}
+				<div>
+					<div class="link-wrapper">
+						<a href="{{commission.get_absolute_url}}">{{commission.title}}</a>
+					</div>
+					<p>Submitted: <span>{{ commission.created_on }}</span></p>
+					<p>Status: <span>{{ commission.get_status_display }}</span></p>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	<a class="create-commission-link" href="/commissions/add">Create Commission</a>
+	</div>
+</main>
 {% endblock%}
