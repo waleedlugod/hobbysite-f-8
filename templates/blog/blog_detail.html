@@ -32,7 +32,7 @@
 
         <img class="header-img" src="{{ article.header_image.url }}"></img>
         <p> {{ article.entry }} </p>
-        <!-- <p> Last updated on: {{ article.updated_on }}</p> -->
+        <p> Last updated on: {{ article.updated_on }}</p>
 
         {% if article in request.user.profile.blog_articles.all %}
             <div class="create-link">
